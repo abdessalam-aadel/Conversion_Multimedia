@@ -28,24 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtFilename = new System.Windows.Forms.Label();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
+            this.txtboxFileName = new System.Windows.Forms.TextBox();
+            this.rtxtboxCmd = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
-            // 
-            // txtFilename
-            // 
-            this.txtFilename.AutoSize = true;
-            this.txtFilename.Location = new System.Drawing.Point(116, 59);
-            this.txtFilename.Name = "txtFilename";
-            this.txtFilename.Size = new System.Drawing.Size(88, 13);
-            this.txtFilename.TabIndex = 0;
-            this.txtFilename.Text = "Chose your file ...";
             // 
             // btnLoad
             // 
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLoad.Location = new System.Drawing.Point(230, 54);
+            this.btnLoad.Location = new System.Drawing.Point(260, 56);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 1;
@@ -56,21 +48,42 @@
             // btnStart
             // 
             this.btnStart.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnStart.Enabled = false;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStart.Location = new System.Drawing.Point(144, 96);
+            this.btnStart.Location = new System.Drawing.Point(260, 88);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(132, 23);
+            this.btnStart.Size = new System.Drawing.Size(75, 63);
             this.btnStart.TabIndex = 2;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = false;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // txtboxFileName
+            // 
+            this.txtboxFileName.Location = new System.Drawing.Point(53, 59);
+            this.txtboxFileName.Name = "txtboxFileName";
+            this.txtboxFileName.Size = new System.Drawing.Size(186, 20);
+            this.txtboxFileName.TabIndex = 3;
+            this.txtboxFileName.Text = "Chose your file ...";
+            // 
+            // rtxtboxCmd
+            // 
+            this.rtxtboxCmd.BackColor = System.Drawing.SystemColors.InfoText;
+            this.rtxtboxCmd.ForeColor = System.Drawing.SystemColors.Window;
+            this.rtxtboxCmd.Location = new System.Drawing.Point(53, 87);
+            this.rtxtboxCmd.Name = "rtxtboxCmd";
+            this.rtxtboxCmd.Size = new System.Drawing.Size(186, 64);
+            this.rtxtboxCmd.TabIndex = 4;
+            this.rtxtboxCmd.Text = "";
             // 
             // ChoseFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.rtxtboxCmd);
+            this.Controls.Add(this.txtboxFileName);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnLoad);
-            this.Controls.Add(this.txtFilename);
             this.Name = "ChoseFile";
             this.Size = new System.Drawing.Size(420, 183);
             this.ResumeLayout(false);
@@ -79,9 +92,9 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label txtFilename;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.TextBox txtboxFileName;
+        private System.Windows.Forms.RichTextBox rtxtboxCmd;
     }
 }
