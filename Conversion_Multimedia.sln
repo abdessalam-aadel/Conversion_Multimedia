@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conversion_Multimedia", "Conversion_Multimedia\Conversion_Multimedia.csproj", "{6D917760-5180-496F-9863-44E130882815}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6D917760-5180-496F-9863-44E130882815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D917760-5180-496F-9863-44E130882815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D917760-5180-496F-9863-44E130882815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D917760-5180-496F-9863-44E130882815}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2072D9F6-C7FB-4A3D-8C66-C97149453EF9}
+	EndGlobalSection
+EndGlobal

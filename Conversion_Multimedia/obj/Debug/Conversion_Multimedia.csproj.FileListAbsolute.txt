@@ -1,0 +1,12 @@
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\bin\Debug\Conversion_Multimedia.exe
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\bin\Debug\Conversion_Multimedia.pdb
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.ConversionMultimediaForm.resources
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.ProgressBar.resources
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.Properties.Resources.resources
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.csproj.GenerateResource.cache
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.csproj.CoreCompileInputs.cache
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.exe
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.pdb
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.StartConversion.resources
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.ChoseFile.resources
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.csprojAssemblyReference.cache
