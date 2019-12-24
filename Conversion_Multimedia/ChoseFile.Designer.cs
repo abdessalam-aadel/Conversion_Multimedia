@@ -36,6 +36,7 @@
             // 
             // btnLoad
             // 
+            this.btnLoad.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoad.Location = new System.Drawing.Point(260, 56);
             this.btnLoad.Name = "btnLoad";
@@ -48,6 +49,7 @@
             // btnStart
             // 
             this.btnStart.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnStart.Enabled = false;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.Location = new System.Drawing.Point(260, 88);
