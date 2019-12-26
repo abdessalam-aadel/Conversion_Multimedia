@@ -32,6 +32,7 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.txtboxFileName = new System.Windows.Forms.TextBox();
             this.rtxtboxCmd = new System.Windows.Forms.RichTextBox();
+            this.labelFilename = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnLoad
@@ -52,7 +53,7 @@
             this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnStart.Enabled = false;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStart.Location = new System.Drawing.Point(260, 88);
+            this.btnStart.Location = new System.Drawing.Point(260, 110);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 63);
             this.btnStart.TabIndex = 2;
@@ -72,16 +73,26 @@
             // 
             this.rtxtboxCmd.BackColor = System.Drawing.SystemColors.InfoText;
             this.rtxtboxCmd.ForeColor = System.Drawing.SystemColors.Window;
-            this.rtxtboxCmd.Location = new System.Drawing.Point(53, 87);
+            this.rtxtboxCmd.Location = new System.Drawing.Point(53, 110);
             this.rtxtboxCmd.Name = "rtxtboxCmd";
             this.rtxtboxCmd.Size = new System.Drawing.Size(186, 64);
             this.rtxtboxCmd.TabIndex = 4;
             this.rtxtboxCmd.Text = "";
             // 
+            // labelFilename
+            // 
+            this.labelFilename.AutoSize = true;
+            this.labelFilename.Location = new System.Drawing.Point(53, 86);
+            this.labelFilename.Name = "labelFilename";
+            this.labelFilename.Size = new System.Drawing.Size(16, 13);
+            this.labelFilename.TabIndex = 5;
+            this.labelFilename.Text = "...";
+            // 
             // ChoseFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labelFilename);
             this.Controls.Add(this.rtxtboxCmd);
             this.Controls.Add(this.txtboxFileName);
             this.Controls.Add(this.btnStart);
@@ -98,5 +109,6 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox txtboxFileName;
         private System.Windows.Forms.RichTextBox rtxtboxCmd;
+        private System.Windows.Forms.Label labelFilename;
     }
 }

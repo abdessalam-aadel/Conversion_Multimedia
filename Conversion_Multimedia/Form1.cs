@@ -11,7 +11,6 @@ namespace Conversion_Multimedia
 {
     public partial class ConversionMultimediaForm : Form
     {
-        string txtMethode;
 
         public ConversionMultimediaForm()
         {
@@ -26,7 +25,6 @@ namespace Conversion_Multimedia
             {
                 choseFile1.BringToFront();
                 comboBox.Visible = false;
-                txtMethode = ".mp4";
 
             }
 
