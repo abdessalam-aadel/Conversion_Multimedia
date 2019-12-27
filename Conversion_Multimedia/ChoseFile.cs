@@ -64,26 +64,34 @@ namespace Conversion_Multimedia
                     // Declare variable input and output of FFmpeg tools
                     string input = txtboxFileName.Text;
                     string output = "output_" + labelFilename.Text.Replace(".mp4", "") + ".avi";
+                    string ffmpeg;
 
-                    // path of FFmpeg tools
-                    string ffmpeg = @"tools\x32\bin\ffmpeg.exe";
-
+                    // Start Condition : if you have win32 or win64
+                    if (Environment.Is64BitOperatingSystem)
+                        ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
+                    else
+                        ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
+                    
+                    // Others method :
+                    //process.StandardInput.WriteLine("wmic os get osarchitecture");
 
                     // Start Command line ...
                     process.StandardInput.WriteLine(ffmpeg + " -i " + input + " " + output);
+                    
+                    // this command just for test
                     //process.StandardInput.WriteLine("ipconfig");
 
-
-
-
+                    // Flush & Close StandarInput
                     process.StandardInput.Flush();
                     process.StandardInput.Close();
-                    //process.BeginOutputReadLine();
+
+                    // Wait for Exit
                     process.WaitForExit();
 
-                    // the result of cmd
+                    // Return the result of cmd
                     string resultCmd = process.StandardOutput.ReadToEnd();
 
+                    #region Replace Location and Colored
                     string pattern = @"\w:(\\.+)*>";;
                     Match match = Regex.Match(resultCmd, pattern);
                     if (match.Success)
@@ -99,13 +107,16 @@ namespace Conversion_Multimedia
                         while (start < end)
                         {
                             rtxtboxCmd.Find(txtToSearch, start, rtxtboxCmd.TextLength, RichTextBoxFinds.MatchCase);
-                            // Set the highlight color as red
+                            // Set the highlight color as DarkOrange
                             rtxtboxCmd.SelectionColor = Color.DarkOrange;
                             start = rtxtboxCmd.Text.IndexOf(txtToSearch,start)+1;
                         }
                     }
                     else
                         rtxtboxCmd.Text = "Nothing to show !!";
+                    #endregion
+
+                    // Close The Process
                     process.Close();
                 }
                 ChangeToDefault();
@@ -117,7 +128,7 @@ namespace Conversion_Multimedia
             }
         }
 
-        // Methode change to default
+        // Methode Change to default
         private void ChangeToDefault()
         {
             this.Cursor = DefaultCursor;
