@@ -39,7 +39,7 @@
             // 
             this.btnLoad.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLoad.Location = new System.Drawing.Point(260, 56);
+            this.btnLoad.Location = new System.Drawing.Point(332, 6);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 1;
@@ -53,7 +53,7 @@
             this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnStart.Enabled = false;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStart.Location = new System.Drawing.Point(260, 110);
+            this.btnStart.Location = new System.Drawing.Point(332, 55);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 63);
             this.btnStart.TabIndex = 2;
@@ -63,9 +63,9 @@
             // 
             // txtboxFileName
             // 
-            this.txtboxFileName.Location = new System.Drawing.Point(53, 59);
+            this.txtboxFileName.Location = new System.Drawing.Point(14, 9);
             this.txtboxFileName.Name = "txtboxFileName";
-            this.txtboxFileName.Size = new System.Drawing.Size(186, 20);
+            this.txtboxFileName.Size = new System.Drawing.Size(312, 20);
             this.txtboxFileName.TabIndex = 3;
             this.txtboxFileName.Text = "Chose your file ...";
             // 
@@ -73,16 +73,16 @@
             // 
             this.rtxtboxCmd.BackColor = System.Drawing.SystemColors.InfoText;
             this.rtxtboxCmd.ForeColor = System.Drawing.SystemColors.Window;
-            this.rtxtboxCmd.Location = new System.Drawing.Point(53, 110);
+            this.rtxtboxCmd.Location = new System.Drawing.Point(14, 55);
             this.rtxtboxCmd.Name = "rtxtboxCmd";
-            this.rtxtboxCmd.Size = new System.Drawing.Size(186, 64);
+            this.rtxtboxCmd.Size = new System.Drawing.Size(312, 64);
             this.rtxtboxCmd.TabIndex = 4;
             this.rtxtboxCmd.Text = "";
             // 
             // labelFilename
             // 
             this.labelFilename.AutoSize = true;
-            this.labelFilename.Location = new System.Drawing.Point(53, 86);
+            this.labelFilename.Location = new System.Drawing.Point(14, 35);
             this.labelFilename.Name = "labelFilename";
             this.labelFilename.Size = new System.Drawing.Size(16, 13);
             this.labelFilename.TabIndex = 5;
@@ -98,7 +98,7 @@
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnLoad);
             this.Name = "ChoseFile";
-            this.Size = new System.Drawing.Size(420, 183);
+            this.Size = new System.Drawing.Size(420, 124);
             this.ResumeLayout(false);
             this.PerformLayout();
 
