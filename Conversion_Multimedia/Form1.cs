@@ -1,83 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Conversion_Multimedia
 {
     public partial class ConversionMultimediaForm : Form
     {
+        // Others methode to pass data from user control to this Form
+        // ......
+
+        public string Types;
 
         public ConversionMultimediaForm()
         {
             InitializeComponent();
-            startConversion.BringToFront();
+            startConversion1.BringToFront();
+        }
+        
+        public string PassingTypeOfConversion
+        {
+            get { return labelOfTypes.Text; }
         }
 
-        private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnLetsGo_Click(object sender, EventArgs e)
         {
-
-            if (comboBox.Text == "Extract sound from video")
+            try
             {
-                choseFile1.BringToFront();
-                comboBox.Visible = false;
+                Types = startConversion1.SelectedTypes.TypeOutput;
+                labelOfTypes.Text = Types;
+                // passing data from form to userControl (ChoseFile.cs) ...
+                choseFile1.PassingTypeOfConversion = PassingTypeOfConversion;
 
+                // Methode Bring to front
+                BringToFrontAndBack();
             }
-
-            else if (comboBox.Text == ".wav to .mp3")
+            catch (Exception)
             {
-                choseFile1.BringToFront();
-                comboBox.Visible = false;
+                // Show message Error !!
+                MessageBox.Show("Please chose your conversion type ...",
+                            "Error Message",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Exclamation);
             }
+        }
 
-            else if (comboBox.Text == ".avi to .mpg")
-            {
-                choseFile1.BringToFront();
-                comboBox.Visible = false;
-            }
+        // Handle Methode Bring to front and return button back visible ...
+        private void BringToFrontAndBack()
+        {
+            //MessageBox.Show(startConversion1.SelectedTypes.TypeOutput); // just for testing
+            choseFile1.BringToFront();
+            btnLetsGo.Visible = false;
+            btnBack.Visible = true;
+            labelOfTypes.Visible = true;
+        }
 
-            else if (comboBox.Text == ".mpg to .avi")
-            {
-                choseFile1.BringToFront();
-                comboBox.Visible = false;
-            }
-
-            else if (comboBox.Text == ".avi to .flv")
-            {
-                choseFile1.BringToFront();
-                comboBox.Visible = false;
-            }
-
-            else if (comboBox.Text == ".avi to .gif")
-            {
-                choseFile1.BringToFront();
-                comboBox.Visible = false;
-            }
-
-            else if (comboBox.Text == ".avi to .dv")
-            {
-                choseFile1.BringToFront();
-                comboBox.Visible = false;
-            }
-
-            else if (comboBox.Text == ".avi to .mpeg")
-            {
-                choseFile1.BringToFront();
-                comboBox.Visible = false;
-            }
-
-            else if (comboBox.Text == ".avi to .mp4")
-            {
-                choseFile1.BringToFront();
-                comboBox.Visible = false;
-            }
-
-            else
-                MessageBox.Show("This méthode could not exist !");
+        // Handle Event click of Button Back
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            startConversion1.BringToFront();
+            btnBack.Visible = false;
+            btnLetsGo.Visible = true;
+            labelOfTypes.Visible = false;
         }
     }
 }
