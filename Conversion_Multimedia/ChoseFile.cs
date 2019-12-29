@@ -143,8 +143,6 @@ namespace Conversion_Multimedia
                     process.Start();
 
                     // Declare variable input and output of FFmpeg tools
-                    // Fix issue : ffmpeg not working with filenames that have whitespace
-                    // Replace every single space with a %20 in url of input .Replace(" ","%20")
                     string input = txtboxFileName.Text; 
 
                     string output = "output_" + labelFilename.Text.Replace(" ","_") + TypesOutput;
@@ -159,7 +157,9 @@ namespace Conversion_Multimedia
                     // Others method :
                     //process.StandardInput.WriteLine("wmic os get osarchitecture");
 
-                    // Start Command line ... + "'" + input + "'" +
+                    // Start Command line ...
+                    // Fix issue : ffmpeg not working with filenames that have whitespace
+                    // Add double quotes to input filenames
                     process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output);
                     
                     // this command just for test
