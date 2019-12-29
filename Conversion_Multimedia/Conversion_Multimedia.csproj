@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>A_kilya.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,6 +73,7 @@
     <Compile Include="StartConversion.Designer.cs">
       <DependentUpon>StartConversion.cs</DependentUpon>
     </Compile>
+    <Compile Include="TypeOfConversion.cs" />
     <EmbeddedResource Include="ChoseFile.resx">
       <DependentUpon>ChoseFile.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +104,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="A_kilya.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

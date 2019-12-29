@@ -31,7 +31,7 @@ namespace Conversion_Multimedia
             ofd.RestoreDirectory = true;
             ofd.Title = "Chose your file";
 
-            #region Locking fo your type ...
+            #region Looking fo your type ...
             if (Types == "Extract sound from video")
             {
                 ofd.Filter = "Videos files|*.mp4";
