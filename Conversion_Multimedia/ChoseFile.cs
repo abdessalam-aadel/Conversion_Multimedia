@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Conversion_Multimedia
 {
@@ -113,7 +114,7 @@ namespace Conversion_Multimedia
             {
                 txtboxFileName.Text = ofd.FileName;
                 btnStart.Enabled = true;
-                labelFilename.Text = ofd.SafeFileName;
+                labelFilename.Text = Path.GetFileNameWithoutExtension(ofd.SafeFileName);
             }
         }
 
@@ -142,8 +143,11 @@ namespace Conversion_Multimedia
                     process.Start();
 
                     // Declare variable input and output of FFmpeg tools
-                    string input = txtboxFileName.Text;
-                    string output = "output_" + labelFilename.Text.Replace(TypesOutput, "") + TypesOutput;
+                    // Fix issue : ffmpeg not working with filenames that have whitespace
+                    // Replace every single space with a %20 in url of input .Replace(" ","%20")
+                    string input = txtboxFileName.Text; 
+
+                    string output = "output_" + labelFilename.Text.Replace(" ","_") + TypesOutput;
                     string ffmpeg;
 
                     // Start Condition : if you have win32 or win64
@@ -151,12 +155,12 @@ namespace Conversion_Multimedia
                         ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
                     else
                         ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-                    
+
                     // Others method :
                     //process.StandardInput.WriteLine("wmic os get osarchitecture");
 
-                    // Start Command line ...
-                    process.StandardInput.WriteLine(ffmpeg + " -i " + input + CommandFFmpegMiddle + output);
+                    // Start Command line ... + "'" + input + "'" +
+                    process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output);
                     
                     // this command just for test
                     //process.StandardInput.WriteLine("ipconfig");
