@@ -11,6 +11,14 @@ namespace Conversion_Multimedia
     {
         public string Types, TypesOutput, CommandFFmpegMiddle;
 
+        // Customize Open file dialog 
+        OpenFileDialog ofd = new OpenFileDialog
+        {
+            InitialDirectory = "C:/",
+            RestoreDirectory = true,
+            Title = "Chose your file"
+        };
+
         public ChoseFile()
         {
             InitializeComponent();
@@ -22,70 +30,48 @@ namespace Conversion_Multimedia
             set { Types = value; }
         }
 
-        private void btnLoad_Click(object sender, EventArgs e)
+        private void BtnLoad_Click(object sender, EventArgs e)
         {
-            // Open file dialog and customize
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.InitialDirectory = "C:/";
-            ofd.RestoreDirectory = true;
-            ofd.Title = "Chose your file";
-
             #region Looking fo your type ...
             switch (Types)
             {
                 case "Extract sound from video":
-                    ofd.Filter = "Videos files|*.mp4";
+                    ofd.Filter = "Videos files MP4|*.mp4|Videos files AVI|*.avi|Videos files FLV|*.flv|Videos files WAV|*.wav";
                     ofd.DefaultExt = "mp4";
                     TypesOutput = ".mp3";
                     CommandFFmpegMiddle = " -vn -ar 44100 -ac 2 -ab 192k -f mp3 ";
                     break;
-                case ".wav to .mp3":
-                    ofd.Filter = "Videos files|*.wav";
-                    ofd.DefaultExt = "wav";
-                    TypesOutput = ".mp3";
-                    CommandFFmpegMiddle = " -vn -ar 44100 -ac 2 -ab 192k -f mp3 ";
-                    break;
                 case ".avi to .mpg":
-                    ofd.Filter = "Videos files|*.avi";
-                    ofd.DefaultExt = "avi";
+                    AviMethode();
                     TypesOutput = ".mpg";
-                    CommandFFmpegMiddle = " ";
                     break;
                 case ".mpg to .avi":
-                    ofd.Filter = "Videos files|*.mpg";
-                    ofd.DefaultExt = "mpg";
+                    ofd.Filter = "Videos files MPG|*.mpg";
                     TypesOutput = ".avi";
                     CommandFFmpegMiddle = " ";
                     break;
                 case ".avi to .flv":
-                    ofd.Filter = "Videos files|*.avi";
-                    ofd.DefaultExt = "avi";
+                    ofd.Filter = "Videos files AVI|*.avi";
                     TypesOutput = ".flv";
                     CommandFFmpegMiddle = " -ab 56 -ar 44100 -b 200 -r 15 -s 320x240 -f flv ";
                     break;
                 case ".avi to .gif":
-                    ofd.Filter = "Videos files|*.avi";
-                    ofd.DefaultExt = "avi";
+                    AviMethode();
                     TypesOutput = ".gif";
-                    CommandFFmpegMiddle = " ";
                     break;
                 case ".avi to .dv":
-                    ofd.Filter = "Videos files|*.avi";
-                    ofd.DefaultExt = "avi";
+                    ofd.Filter = "Videos files AVI|*.avi";
                     TypesOutput = ".dv";
                     CommandFFmpegMiddle = " -s pal -r pal -aspect 4:3 -ar 48000 -ac 2 ";
                     break;
                 case ".avi to .mpeg":
-                    ofd.Filter = "Videos files|*.avi";
-                    ofd.DefaultExt = "avi";
+                    ofd.Filter = "Videos files AVI|*.avi";
                     TypesOutput = ".mpeg";
                     CommandFFmpegMiddle = " -target pal-dvd -ps 2000000000 -aspect 16:9 ";
                     break;
                 case ".avi to .mp4":
-                    ofd.Filter = "Videos files|*.avi";
-                    ofd.DefaultExt = "avi";
+                    AviMethode();
                     TypesOutput = ".mp4";
-                    CommandFFmpegMiddle = " ";
                     break;
                 default:
                     MessageBox.Show("This méthode could not exist !");
@@ -97,18 +83,18 @@ namespace Conversion_Multimedia
             if (result == DialogResult.OK)
             {
                 txtboxFileName.Text = ofd.FileName;
-                btnStart.Enabled = true;
+                BtnStart.Enabled = true;
                 labelFilename.Text = Path.GetFileNameWithoutExtension(ofd.SafeFileName);
             }
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void BtnStart_Click(object sender, EventArgs e)
         {
             try
             {
                 // change the cursor and disable button start
                 this.Cursor = Cursors.WaitCursor;
-                btnStart.Enabled = false;
+                BtnStart.Enabled = false;
 
                 // uses an instance of the Process class to start a process
                 using (Process process = new Process())
@@ -138,16 +124,10 @@ namespace Conversion_Multimedia
                     else
                         ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
 
-                    // Others method :
-                    //process.StandardInput.WriteLine("wmic os get osarchitecture");
-
                     // Start Command line ...
                     // Fix issue : ffmpeg not working with filenames that have whitespace
                     // Add double quotes to input filenames
                     process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output);
-                    
-                    // this command just for test
-                    //process.StandardInput.WriteLine("ipconfig");
 
                     // Flush & Close StandarInput
                     process.StandardInput.Flush();
@@ -205,6 +185,13 @@ namespace Conversion_Multimedia
             this.Cursor = DefaultCursor;
             txtboxFileName.Text = "Chose your file ...";
             labelFilename.Text = "...";
+        }
+
+        // Méthode .AVI
+        private void AviMethode()
+        {
+            ofd.Filter = "Videos files AVI|*.avi";
+            CommandFFmpegMiddle = " ";
         }
     }
 }

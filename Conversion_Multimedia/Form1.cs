@@ -5,9 +5,6 @@ namespace Conversion_Multimedia
 {
     public partial class ConversionMultimediaForm : Form
     {
-        // Others methode to pass data from user control to this Form
-        // ......
-
         public string Types;
 
         public ConversionMultimediaForm()
@@ -46,7 +43,6 @@ namespace Conversion_Multimedia
         // Handle Methode Bring to front and return button back visible ...
         private void BringToFrontAndBack()
         {
-            //MessageBox.Show(startConversion1.SelectedTypes.TypeOutput); // just for testing
             choseFile1.BringToFront();
             btnLetsGo.Visible = false;
             btnBack.Visible = true;
