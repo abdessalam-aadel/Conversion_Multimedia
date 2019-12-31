@@ -18,20 +18,27 @@ namespace Conversion_Multimedia
         {
             // Add Data source from list
             List<TypeOfConversion> list = new List<TypeOfConversion>();
-            list.Add(new TypeOfConversion() { ID = 1, TypeOutput = "Extract sound from video" });
-            list.Add(new TypeOfConversion() { ID = 2, TypeOutput = ".avi to .mpg" });
-            list.Add(new TypeOfConversion() { ID = 3, TypeOutput = ".mpg to .avi" });
-            list.Add(new TypeOfConversion() { ID = 4, TypeOutput = ".avi to .flv" });
-            list.Add(new TypeOfConversion() { ID = 5, TypeOutput = ".avi to .gif" });
-            list.Add(new TypeOfConversion() { ID = 6, TypeOutput = ".avi to .dv" });
-            list.Add(new TypeOfConversion() { ID = 7, TypeOutput = ".avi to .mpeg" });
-            list.Add(new TypeOfConversion() { ID = 8, TypeOutput = ".wav or .avi to .mp4" });
-            list.Add(new TypeOfConversion() { ID = 9, TypeOutput = ".mkv to .mp4" });
-            list.Add(new TypeOfConversion() { ID = 10, TypeOutput = "Convert a Video to X Images" });
-            list.Add(new TypeOfConversion() { ID = 11, TypeOutput = "Compress .avi to VCD mpeg2" });
-            list.Add(new TypeOfConversion() { ID = 12, TypeOutput = ".webp to .png" });
-            list.Add(new TypeOfConversion() { ID = 13, TypeOutput = "JPEG compression quality" });
-            list.Add(new TypeOfConversion() { ID = 14, TypeOutput = "PNG compression quality" });
+            string[] typesConversion = new string[] 
+            {
+                "Extract sound from video" ,
+                ".avi to .mpg",
+                ".mpg to .avi",
+                ".avi to .flv",
+                ".avi to .gif",
+                ".avi to .dv",
+                ".avi to .mpeg",
+                ".wav or .avi to .mp4",
+                ".mkv to .mp4",
+                "Convert a Video to X Images",
+                "Compress .avi to VCD mpeg2",
+                ".webp to .png",
+                "JPEG compression quality",
+                "PNG compression quality"
+            };
+            for (int i = 0; i < typesConversion.Length; i++)
+            {
+                list.Add(new TypeOfConversion() { ID = i+1, TypeOutput = typesConversion[i] });
+            }
 
             ComboBoxTypes.DataSource = list;
             ComboBoxTypes.ValueMember = "ID";
