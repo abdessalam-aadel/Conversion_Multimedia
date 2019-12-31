@@ -66,10 +66,11 @@
             // labelOfTypes
             // 
             this.labelOfTypes.AutoSize = true;
-            this.labelOfTypes.ForeColor = System.Drawing.Color.ForestGreen;
-            this.labelOfTypes.Location = new System.Drawing.Point(320, 145);
+            this.labelOfTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelOfTypes.ForeColor = System.Drawing.Color.OrangeRed;
+            this.labelOfTypes.Location = new System.Drawing.Point(124, 144);
             this.labelOfTypes.Name = "labelOfTypes";
-            this.labelOfTypes.Size = new System.Drawing.Size(16, 13);
+            this.labelOfTypes.Size = new System.Drawing.Size(20, 16);
             this.labelOfTypes.TabIndex = 8;
             this.labelOfTypes.Text = "...";
             this.labelOfTypes.Visible = false;

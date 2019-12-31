@@ -9,7 +9,7 @@ namespace Conversion_Multimedia
 {
     public partial class ChoseFile : UserControl
     {
-        public string Types, TypesOutput, CommandFFmpegMiddle;
+        public string Types, TypesOutput, CommandFFmpegMiddle, ImagesOutput;
 
         // Customize Open file dialog 
         OpenFileDialog ofd = new OpenFileDialog
@@ -27,7 +27,7 @@ namespace Conversion_Multimedia
         // passing value of type convertion from Form to userControl (ChoseFile.cs)
         public string PassingTypeOfConversion
         {
-            set { Types = value; }
+            set => Types = value;
         }
 
         private void BtnLoad_Click(object sender, EventArgs e)
@@ -69,13 +69,45 @@ namespace Conversion_Multimedia
                     TypesOutput = ".mpeg";
                     CommandFFmpegMiddle = " -target pal-dvd -ps 2000000000 -aspect 16:9 ";
                     break;
-                case ".avi to .mp4":
-                    AviMethode();
+                case ".wav or .avi to .mp4":
+                    ofd.Filter = "Videos files WAV|*.wav|Videos files AVI|*.avi";
                     TypesOutput = ".mp4";
+                    CommandFFmpegMiddle = " ";
+                    break;
+                case ".mkv to .mp4":
+                    ofd.Filter = "Videos files MKV|*.mkv";
+                    TypesOutput = ".mp4";
+                    CommandFFmpegMiddle = " -codec copy ";
+                    break;
+                case "Convert a Video to X Images":
+                    ofd.Filter = "Videos files MPG|*.mpg";
+                    TypesOutput = ".jpg";
+                    ImagesOutput = "%d";
+                    CommandFFmpegMiddle = " ";
+                    break;
+                case "Compress .avi to VCD mpeg2":
+                    ofd.Filter = "Videos files AVI|*.avi";
+                    TypesOutput = ".mpg";
+                    CommandFFmpegMiddle = " -target ntsc-vcd ";
+                    break;
+                case ".webp to .png":
+                    ofd.Filter = "Images files WEBP|*.webp";
+                    TypesOutput = ".png";
+                    CommandFFmpegMiddle = " ";
+                    break;
+                case "JPEG compression quality":
+                    ofd.Filter = "Images files JPEG|*.jpg";
+                    TypesOutput = ".jpg";
+                    CommandFFmpegMiddle = " -compression_level 100 ";
+                    break;
+                case "PNG compression quality":
+                    ofd.Filter = "Images files PNG|*.png";
+                    TypesOutput = ".png";
+                    CommandFFmpegMiddle = " -compression_level 100 ";
                     break;
                 default:
                     MessageBox.Show("This méthode could not exist !");
-                    break;
+                    return;
             }
             #endregion
 
@@ -115,7 +147,7 @@ namespace Conversion_Multimedia
                     // Declare variable input and output of FFmpeg tools
                     string input = txtboxFileName.Text; 
 
-                    string output = "output_" + labelFilename.Text.Replace(" ","_") + TypesOutput;
+                    string output = "output_" + labelFilename.Text.Replace(" ","_") + ImagesOutput + TypesOutput;
                     string ffmpeg;
 
                     // Start Condition : if you have win32 or win64
@@ -129,6 +161,8 @@ namespace Conversion_Multimedia
                     // Add double quotes to input filenames
                     process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output);
 
+                    // Restart value of ImagesOutput
+                    ImagesOutput = "";
                     // Flush & Close StandarInput
                     process.StandardInput.Flush();
                     process.StandardInput.Close();
