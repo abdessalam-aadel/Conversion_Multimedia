@@ -12,11 +12,9 @@ namespace Conversion_Multimedia
             InitializeComponent();
             startConversion1.BringToFront();
         }
-        
-        public string PassingTypeOfConversion
-        {
-            get { return labelOfTypes.Text; }
-        }
+
+        public string GetPassingTypeOfConversion()
+        { return labelOfTypes.Text; }
 
         private void btnLetsGo_Click(object sender, EventArgs e)
         {
@@ -25,7 +23,7 @@ namespace Conversion_Multimedia
                 Types = startConversion1.SelectedTypes.TypeOutput;
                 labelOfTypes.Text = Types;
                 // passing data from form to userControl (ChoseFile.cs) ...
-                choseFile1.PassingTypeOfConversion = PassingTypeOfConversion;
+                choseFile1.PassingTypeOfConversion = GetPassingTypeOfConversion();
 
                 // Methode Bring to front
                 BringToFrontAndBack();
