@@ -6,10 +6,7 @@ namespace Conversion_Multimedia
 {
     public partial class StartConversion : UserControl
     {
-        public StartConversion()
-        {
-            InitializeComponent();
-        }
+        public StartConversion() => InitializeComponent();
 
         // Methode to pass data from user control to the Form
         public TypeOfConversion SelectedTypes => (TypeOfConversion)ComboBoxTypes.SelectedItem;
@@ -39,7 +36,6 @@ namespace Conversion_Multimedia
             {
                 list.Add(new TypeOfConversion() { ID = i+1, TypeOutput = typesConversion[i] });
             }
-
             ComboBoxTypes.DataSource = list;
             ComboBoxTypes.ValueMember = "ID";
             ComboBoxTypes.DisplayMember = "TypeOutput";
