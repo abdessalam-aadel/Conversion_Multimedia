@@ -19,10 +19,7 @@ namespace Conversion_Multimedia
             Title = "Chose your file"
         };
 
-        public ChoseFile()
-        {
-            InitializeComponent();
-        }
+        public ChoseFile() => InitializeComponent();
 
         // passing value of type convertion from Form to userControl (ChoseFile.cs)
         public string PassingTypeOfConversion
@@ -36,7 +33,7 @@ namespace Conversion_Multimedia
             switch (Types)
             {
                 case "Extract sound from video":
-                    ofd.Filter = "Videos files MP4|*.mp4|Videos files AVI|*.avi|Videos files FLV|*.flv|Videos files WAV|*.wav";
+                    ofd.Filter = "Videos files (*.mp4, *.avi, *.flv, *.wav ) | *.mp4; *.avi; *.flv; *.wav";
                     ofd.DefaultExt = "mp4";
                     TypesOutput = ".mp3";
                     CommandFFmpegMiddle = " -vn -ar 44100 -ac 2 -ab 192k -f mp3 ";
@@ -46,12 +43,12 @@ namespace Conversion_Multimedia
                     TypesOutput = ".mpg";
                     break;
                 case ".mpg to .avi":
-                    ofd.Filter = "Videos files MPG|*.mpg";
+                    ofd.Filter = "Videos files (*.mpg) | *.mpg";
                     TypesOutput = ".avi";
                     CommandFFmpegMiddle = " ";
                     break;
                 case ".avi to .flv":
-                    ofd.Filter = "Videos files AVI|*.avi";
+                    ofd.Filter = "Videos files (*.avi) | *.avi";
                     TypesOutput = ".flv";
                     CommandFFmpegMiddle = " -ab 56 -ar 44100 -b 200 -r 15 -s 320x240 -f flv ";
                     break;
@@ -60,48 +57,48 @@ namespace Conversion_Multimedia
                     TypesOutput = ".gif";
                     break;
                 case ".avi to .dv":
-                    ofd.Filter = "Videos files AVI|*.avi";
+                    ofd.Filter = "Videos files (*.avi) | *.avi";
                     TypesOutput = ".dv";
                     CommandFFmpegMiddle = " -s pal -r pal -aspect 4:3 -ar 48000 -ac 2 ";
                     break;
                 case ".avi to .mpeg":
-                    ofd.Filter = "Videos files AVI|*.avi";
+                    ofd.Filter = "Videos files (*.avi) | *.avi";
                     TypesOutput = ".mpeg";
                     CommandFFmpegMiddle = " -target pal-dvd -ps 2000000000 -aspect 16:9 ";
                     break;
                 case ".wav or .avi to .mp4":
-                    ofd.Filter = "Videos files WAV|*.wav|Videos files AVI|*.avi";
+                    ofd.Filter = "Videos files (*.wav, *.avi) | *.wav; *.avi";
                     TypesOutput = ".mp4";
                     CommandFFmpegMiddle = " ";
                     break;
                 case ".mkv to .mp4":
-                    ofd.Filter = "Videos files MKV|*.mkv";
+                    ofd.Filter = "Videos files (*.mkv) | *.mkv";
                     TypesOutput = ".mp4";
                     CommandFFmpegMiddle = " -codec copy ";
                     break;
                 case "Convert a Video to X Images":
-                    ofd.Filter = "Videos files MPG|*.mpg";
+                    ofd.Filter = "Videos files (*.mpg) | *.mpg";
                     TypesOutput = ".jpg";
                     ImagesOutput = "%d";
                     CommandFFmpegMiddle = " ";
                     break;
                 case "Compress .avi to VCD mpeg2":
-                    ofd.Filter = "Videos files AVI|*.avi";
+                    ofd.Filter = "Videos files (*.avi) | *.avi";
                     TypesOutput = ".mpg";
                     CommandFFmpegMiddle = " -target ntsc-vcd ";
                     break;
                 case ".webp to .png":
-                    ofd.Filter = "Images files WEBP|*.webp";
+                    ofd.Filter = "Images files (*.webp) | *.webp";
                     TypesOutput = ".png";
                     CommandFFmpegMiddle = " ";
                     break;
                 case "JPEG compression quality":
-                    ofd.Filter = "Images files JPEG|*.jpg";
+                    ofd.Filter = "Images files (*.jpg) | *.jpg";
                     TypesOutput = ".jpg";
                     CommandFFmpegMiddle = " -compression_level 100 ";
                     break;
                 case "PNG compression quality":
-                    ofd.Filter = "Images files PNG|*.png";
+                    ofd.Filter = "Images files (*.png) | *.png";
                     TypesOutput = ".png";
                     CommandFFmpegMiddle = " -compression_level 100 ";
                     break;
@@ -118,6 +115,8 @@ namespace Conversion_Multimedia
                 BtnStart.Enabled = true;
                 labelFilename.Text = Path.GetFileNameWithoutExtension(ofd.SafeFileName);
             }
+            else
+                return;
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
@@ -202,6 +201,9 @@ namespace Conversion_Multimedia
                     process.Close();
                 }
                 ChangeToDefault();
+                MessageBox.Show("Your conversion is completed successfully","Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -219,12 +221,13 @@ namespace Conversion_Multimedia
             this.Cursor = DefaultCursor;
             txtboxFileName.Text = "Chose your file ...";
             labelFilename.Text = "...";
+            ofd.FileName = "";
         }
 
         // Méthode .AVI
         private void AviMethode()
         {
-            ofd.Filter = "Videos files AVI|*.avi";
+            ofd.Filter = "Videos files (*.avi) | *.avi";
             CommandFFmpegMiddle = " ";
         }
     }

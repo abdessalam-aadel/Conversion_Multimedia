@@ -39,7 +39,7 @@
             // 
             this.BtnLoad.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnLoad.Location = new System.Drawing.Point(332, 6);
+            this.BtnLoad.Location = new System.Drawing.Point(332, 11);
             this.BtnLoad.Name = "BtnLoad";
             this.BtnLoad.Size = new System.Drawing.Size(75, 23);
             this.BtnLoad.TabIndex = 1;
@@ -63,8 +63,9 @@
             // 
             // txtboxFileName
             // 
-            this.txtboxFileName.Location = new System.Drawing.Point(14, 9);
+            this.txtboxFileName.Location = new System.Drawing.Point(14, 12);
             this.txtboxFileName.Name = "txtboxFileName";
+            this.txtboxFileName.ReadOnly = true;
             this.txtboxFileName.Size = new System.Drawing.Size(312, 20);
             this.txtboxFileName.TabIndex = 3;
             this.txtboxFileName.Text = "Chose your file ...";
@@ -75,6 +76,7 @@
             this.rtxtboxCmd.ForeColor = System.Drawing.SystemColors.Window;
             this.rtxtboxCmd.Location = new System.Drawing.Point(14, 55);
             this.rtxtboxCmd.Name = "rtxtboxCmd";
+            this.rtxtboxCmd.ReadOnly = true;
             this.rtxtboxCmd.Size = new System.Drawing.Size(312, 64);
             this.rtxtboxCmd.TabIndex = 4;
             this.rtxtboxCmd.Text = "";
