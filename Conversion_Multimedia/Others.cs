@@ -66,6 +66,7 @@ namespace Conversion_Multimedia
                 FrmInfo frmInfo = new FrmInfo();
                 frmInfo.GetValue(rtxtBoxInfo.Text);
                 frmInfo.ShowDialog();
+                ofd.FileName = "";
             }
             catch (Exception ex)
             {
