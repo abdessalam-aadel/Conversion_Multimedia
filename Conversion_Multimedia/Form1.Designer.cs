@@ -35,6 +35,8 @@
             this.BtnOthers = new System.Windows.Forms.Button();
             this.BtnNext = new System.Windows.Forms.Button();
             this.BtnBack = new System.Windows.Forms.Button();
+            this.labelFooter1 = new System.Windows.Forms.Label();
+            this.labelFooter2 = new System.Windows.Forms.Label();
             this.addSubtitles1 = new Conversion_Multimedia.AddSubtitles();
             this.resize1 = new Conversion_Multimedia.Resize();
             this.crop1 = new Conversion_Multimedia.Crop();
@@ -124,6 +126,28 @@
             this.BtnBack.Visible = false;
             this.BtnBack.Click += new System.EventHandler(this.BtnBack_Click);
             // 
+            // labelFooter1
+            // 
+            this.labelFooter1.AutoSize = true;
+            this.labelFooter1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFooter1.ForeColor = System.Drawing.Color.DimGray;
+            this.labelFooter1.Location = new System.Drawing.Point(3, 172);
+            this.labelFooter1.Name = "labelFooter1";
+            this.labelFooter1.Size = new System.Drawing.Size(155, 13);
+            this.labelFooter1.TabIndex = 18;
+            this.labelFooter1.Text = "© 2020 Conversion Multimedia.";
+            // 
+            // labelFooter2
+            // 
+            this.labelFooter2.AutoSize = true;
+            this.labelFooter2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFooter2.ForeColor = System.Drawing.Color.DimGray;
+            this.labelFooter2.Location = new System.Drawing.Point(336, 172);
+            this.labelFooter2.Name = "labelFooter2";
+            this.labelFooter2.Size = new System.Drawing.Size(105, 13);
+            this.labelFooter2.TabIndex = 19;
+            this.labelFooter2.Text = "Abdessalam AADEL.";
+            // 
             // addSubtitles1
             // 
             this.addSubtitles1.Location = new System.Drawing.Point(10, 10);
@@ -170,7 +194,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 172);
+            this.ClientSize = new System.Drawing.Size(444, 188);
+            this.Controls.Add(this.labelFooter2);
+            this.Controls.Add(this.labelFooter1);
             this.Controls.Add(this.BtnBack);
             this.Controls.Add(this.addSubtitles1);
             this.Controls.Add(this.resize1);
@@ -209,6 +235,8 @@
         private Resize resize1;
         private AddSubtitles addSubtitles1;
         private System.Windows.Forms.Button BtnBack;
+        private System.Windows.Forms.Label labelFooter1;
+        private System.Windows.Forms.Label labelFooter2;
     }
 }
 
