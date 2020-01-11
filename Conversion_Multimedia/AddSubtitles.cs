@@ -2,12 +2,13 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 
 namespace Conversion_Multimedia
 {
     public partial class AddSubtitles : UserControl
     {
-        public string videoName;
+        public string videoName, videoType, currentDir, subName;
         
         public AddSubtitles() => InitializeComponent();
 
@@ -30,7 +31,10 @@ namespace Conversion_Multimedia
                 txtBoxSubFilename.Enabled = true;
                 BtnLoadSub.Enabled = true;
                 videoName = Path.GetFileNameWithoutExtension(ofd.SafeFileName);
+                videoType = Path.GetExtension(ofd.SafeFileName);
             }
+            else
+                return;
         }
 
         // Handle event click Button Load Subtitles ...
@@ -45,7 +49,21 @@ namespace Conversion_Multimedia
                 BtnStartAdd.Enabled = true;
                 BtnLoadSub.Enabled = false;
                 BtnLoadVideo.Enabled = false;
+                // Copy Subtitle file to Assembly directory ...
+                subName = ofd.SafeFileName;
+                string subSourcePath = Path.GetDirectoryName(ofd.FileName);
+                // Get current Directory of file Execution
+                currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                //Or currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                // Use Path class to manipulate file and directory paths.
+                string sourceFile = Path.Combine(subSourcePath, subName);
+                string destFile = Path.Combine(currentDir, subName);
+                // To copy a file to another location and 
+                // overwrite the destination file if it already exists.
+                File.Copy(sourceFile, destFile, true);
             }
+            else
+                return;
         }
 
         // Handle event click Button Start Add Subtitles to video ...
@@ -76,7 +94,7 @@ namespace Conversion_Multimedia
                     string inputVideo = txtBoxVideoFilename.Text;
                     string inputSubtitle = txtBoxSubFilename.Text;
 
-                    string output = " output_" + videoName.Replace(" ", "_") + ".mp4";
+                    string output = " output_" + videoName.Replace(" ", "_") + videoType;
                     string ffmpeg;
 
                     // Start Condition : if you have win32 or win64
@@ -87,7 +105,7 @@ namespace Conversion_Multimedia
 
                     // Start Command line ...
                     process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + inputVideo + "\"" 
-                        + " -vf subtitles=" + "\"" + inputSubtitle + "\"" 
+                        + " -vf subtitles=" + subName
                         + output);
                     
                     // Flush & Close StandarInput
@@ -123,6 +141,19 @@ namespace Conversion_Multimedia
             BtnLoadSub.Enabled = false;
             BtnStartAdd.Enabled = false;
             ofd.FileName = "";
+            // Delete Subtitle file ...
+            string subLocation = currentDir + subName;
+            if (File.Exists(subLocation))
+            {
+                try
+                {
+                    File.Delete(subLocation);
+                }
+                catch (IOException ioex)
+                {
+                    Console.WriteLine(ioex.Message);
+                }
+            }
         }
     }
 }
