@@ -52,7 +52,9 @@
             this.BtnStart.BackColor = System.Drawing.Color.ForestGreen;
             this.BtnStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnStart.Enabled = false;
+            this.BtnStart.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.BtnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnStart.ForeColor = System.Drawing.Color.White;
             this.BtnStart.Location = new System.Drawing.Point(332, 55);
             this.BtnStart.Name = "BtnStart";
             this.BtnStart.Size = new System.Drawing.Size(75, 63);
@@ -72,7 +74,7 @@
             // 
             // rtxtboxCmd
             // 
-            this.rtxtboxCmd.BackColor = System.Drawing.SystemColors.InfoText;
+            this.rtxtboxCmd.BackColor = System.Drawing.Color.DarkSlateGray;
             this.rtxtboxCmd.ForeColor = System.Drawing.SystemColors.Window;
             this.rtxtboxCmd.Location = new System.Drawing.Point(14, 55);
             this.rtxtboxCmd.Name = "rtxtboxCmd";

@@ -80,7 +80,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Maroon;
+            this.label1.ForeColor = System.Drawing.Color.OrangeRed;
             this.label1.Location = new System.Drawing.Point(180, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 18);
@@ -89,9 +89,10 @@
             // 
             // BtnStartResize
             // 
-            this.BtnStartResize.BackColor = System.Drawing.Color.Chocolate;
+            this.BtnStartResize.BackColor = System.Drawing.Color.DarkSlateGray;
             this.BtnStartResize.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnStartResize.Enabled = false;
+            this.BtnStartResize.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.BtnStartResize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnStartResize.ForeColor = System.Drawing.Color.White;
             this.BtnStartResize.Location = new System.Drawing.Point(308, 73);

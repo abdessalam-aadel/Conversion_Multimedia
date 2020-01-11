@@ -112,7 +112,7 @@ namespace Conversion_Multimedia
             BtnNext.Visible = false;
         }
 
-        // -- win you press Escape in keyboard --
+        // -- Minimize Form Main win you press Escape in keyboard --
         private void ConversionMultimediaForm_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Escape)

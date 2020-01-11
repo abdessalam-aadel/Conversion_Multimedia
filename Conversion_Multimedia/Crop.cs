@@ -139,16 +139,21 @@ namespace Conversion_Multimedia
         {
             this.Cursor = DefaultCursor;
             txtBoxVideoFilename.Text = "Chose your video file ...";
+            // Enable Button Load
             BtnLoadVideo.Enabled = true;
+            // Disable Button Start crop
             btnStartCrop.Enabled = false;
+            // Disable TextBox
             txtBoxW.Enabled = false;
             txtBoxH.Enabled = false;
             txtBoxX.Enabled = false;
             txtBoxY.Enabled = false;
+            // Clear TextBox
             txtBoxW.Text = "";
             txtBoxH.Text = "";
             txtBoxX.Text = "";
             txtBoxY.Text = "";
+            // Clear FileName of Open file dialog
             ofd.FileName = "";
         }
     }

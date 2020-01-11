@@ -41,7 +41,7 @@
             this.BtnLoadSub.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnLoadSub.Enabled = false;
             this.BtnLoadSub.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnLoadSub.Location = new System.Drawing.Point(244, 93);
+            this.BtnLoadSub.Location = new System.Drawing.Point(256, 93);
             this.BtnLoadSub.Name = "BtnLoadSub";
             this.BtnLoadSub.Size = new System.Drawing.Size(66, 24);
             this.BtnLoadSub.TabIndex = 1;
@@ -54,7 +54,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Maroon;
+            this.label5.ForeColor = System.Drawing.Color.OrangeRed;
             this.label5.Location = new System.Drawing.Point(157, 19);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(106, 18);
@@ -67,7 +67,7 @@
             this.txtBoxSubFilename.Location = new System.Drawing.Point(17, 95);
             this.txtBoxSubFilename.Name = "txtBoxSubFilename";
             this.txtBoxSubFilename.ReadOnly = true;
-            this.txtBoxSubFilename.Size = new System.Drawing.Size(212, 20);
+            this.txtBoxSubFilename.Size = new System.Drawing.Size(233, 20);
             this.txtBoxSubFilename.TabIndex = 15;
             this.txtBoxSubFilename.Text = "Chose your subtitle ...";
             // 
@@ -76,7 +76,7 @@
             this.txtBoxVideoFilename.Location = new System.Drawing.Point(17, 64);
             this.txtBoxVideoFilename.Name = "txtBoxVideoFilename";
             this.txtBoxVideoFilename.ReadOnly = true;
-            this.txtBoxVideoFilename.Size = new System.Drawing.Size(212, 20);
+            this.txtBoxVideoFilename.Size = new System.Drawing.Size(233, 20);
             this.txtBoxVideoFilename.TabIndex = 17;
             this.txtBoxVideoFilename.Text = "Chose your video file ...";
             // 
@@ -84,7 +84,8 @@
             // 
             this.BtnLoadVideo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnLoadVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnLoadVideo.Location = new System.Drawing.Point(244, 62);
+            this.BtnLoadVideo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnLoadVideo.Location = new System.Drawing.Point(256, 62);
             this.BtnLoadVideo.Name = "BtnLoadVideo";
             this.BtnLoadVideo.Size = new System.Drawing.Size(66, 24);
             this.BtnLoadVideo.TabIndex = 16;
@@ -95,9 +96,10 @@
             // 
             // BtnStartAdd
             // 
-            this.BtnStartAdd.BackColor = System.Drawing.Color.OrangeRed;
+            this.BtnStartAdd.BackColor = System.Drawing.Color.LimeGreen;
             this.BtnStartAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnStartAdd.Enabled = false;
+            this.BtnStartAdd.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.BtnStartAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnStartAdd.ForeColor = System.Drawing.Color.White;
             this.BtnStartAdd.Location = new System.Drawing.Point(329, 62);

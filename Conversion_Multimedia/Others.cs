@@ -46,11 +46,11 @@ namespace Conversion_Multimedia
                     p.StartInfo.CreateNoWindow = true;
                     p.StartInfo.FileName = ffmpeg;
                     p.StartInfo.Arguments = " -i " + "\"" + inputFileName + "\"";
-                    //p.StartInfo.Arguments = " -h";
+                    //p.StartInfo.Arguments = " -h"; // for testing ...
                     p.Start();
                     p.BeginOutputReadLine();
                     p.BeginErrorReadLine();
-                    //Thread.Sleep(10000);
+                    //Thread.Sleep(10000); // wait for the process to exit ...
                     MessageBox.Show("Waiting for the process to exit....");
                     p.WaitForExit();
                     if (p.HasExited)

@@ -45,7 +45,7 @@
             // txtBoxX
             // 
             this.txtBoxX.Enabled = false;
-            this.txtBoxX.Location = new System.Drawing.Point(39, 72);
+            this.txtBoxX.Location = new System.Drawing.Point(38, 72);
             this.txtBoxX.Name = "txtBoxX";
             this.txtBoxX.ShortcutsEnabled = false;
             this.txtBoxX.Size = new System.Drawing.Size(114, 20);
@@ -55,7 +55,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 76);
+            this.label1.Location = new System.Drawing.Point(14, 76);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(20, 13);
             this.label1.TabIndex = 1;
@@ -64,7 +64,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 105);
+            this.label2.Location = new System.Drawing.Point(14, 105);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(20, 13);
             this.label2.TabIndex = 2;
@@ -73,7 +73,7 @@
             // txtBoxY
             // 
             this.txtBoxY.Enabled = false;
-            this.txtBoxY.Location = new System.Drawing.Point(39, 101);
+            this.txtBoxY.Location = new System.Drawing.Point(38, 101);
             this.txtBoxY.Name = "txtBoxY";
             this.txtBoxY.ShortcutsEnabled = false;
             this.txtBoxY.Size = new System.Drawing.Size(114, 20);
@@ -83,7 +83,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(162, 75);
+            this.label3.Location = new System.Drawing.Point(163, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 13);
             this.label3.TabIndex = 4;
@@ -92,7 +92,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(162, 104);
+            this.label4.Location = new System.Drawing.Point(163, 104);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(44, 13);
             this.label4.TabIndex = 5;
@@ -101,7 +101,7 @@
             // txtBoxH
             // 
             this.txtBoxH.Enabled = false;
-            this.txtBoxH.Location = new System.Drawing.Point(212, 100);
+            this.txtBoxH.Location = new System.Drawing.Point(211, 100);
             this.txtBoxH.Name = "txtBoxH";
             this.txtBoxH.ShortcutsEnabled = false;
             this.txtBoxH.Size = new System.Drawing.Size(114, 20);
@@ -111,7 +111,7 @@
             // txtBoxW
             // 
             this.txtBoxW.Enabled = false;
-            this.txtBoxW.Location = new System.Drawing.Point(212, 71);
+            this.txtBoxW.Location = new System.Drawing.Point(211, 71);
             this.txtBoxW.Name = "txtBoxW";
             this.txtBoxW.ShortcutsEnabled = false;
             this.txtBoxW.Size = new System.Drawing.Size(114, 20);
@@ -122,7 +122,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Maroon;
+            this.label5.ForeColor = System.Drawing.Color.OrangeRed;
             this.label5.Location = new System.Drawing.Point(98, 11);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(224, 18);
@@ -131,7 +131,7 @@
             // 
             // txtBoxVideoFilename
             // 
-            this.txtBoxVideoFilename.Location = new System.Drawing.Point(16, 41);
+            this.txtBoxVideoFilename.Location = new System.Drawing.Point(15, 41);
             this.txtBoxVideoFilename.Name = "txtBoxVideoFilename";
             this.txtBoxVideoFilename.ReadOnly = true;
             this.txtBoxVideoFilename.Size = new System.Drawing.Size(310, 20);
@@ -142,7 +142,7 @@
             // 
             this.BtnLoadVideo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnLoadVideo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BtnLoadVideo.Location = new System.Drawing.Point(332, 40);
+            this.BtnLoadVideo.Location = new System.Drawing.Point(331, 40);
             this.BtnLoadVideo.Name = "BtnLoadVideo";
             this.BtnLoadVideo.Size = new System.Drawing.Size(75, 22);
             this.BtnLoadVideo.TabIndex = 22;
@@ -152,12 +152,13 @@
             // 
             // btnStartCrop
             // 
-            this.btnStartCrop.BackColor = System.Drawing.Color.Indigo;
+            this.btnStartCrop.BackColor = System.Drawing.Color.SeaGreen;
             this.btnStartCrop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnStartCrop.Enabled = false;
+            this.btnStartCrop.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btnStartCrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStartCrop.ForeColor = System.Drawing.Color.White;
-            this.btnStartCrop.Location = new System.Drawing.Point(332, 71);
+            this.btnStartCrop.Location = new System.Drawing.Point(331, 71);
             this.btnStartCrop.Name = "btnStartCrop";
             this.btnStartCrop.Size = new System.Drawing.Size(75, 49);
             this.btnStartCrop.TabIndex = 24;
