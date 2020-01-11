@@ -23,7 +23,13 @@ namespace Conversion_Multimedia
         private static void Not_KeyString(KeyPressEventArgs e)
         {
             if (e.KeyChar < 48 || e.KeyChar > 57)
-                e.Handled = true;
+            {
+                // if you press the BACKSPACE key, the Handled property is set to false, 
+                if (e.KeyChar == 8)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
         }
         // Start -- Handle event KeyPress ...
         private void txtBoxX_KeyPress(object sender, KeyPressEventArgs e) => Not_KeyString(e);

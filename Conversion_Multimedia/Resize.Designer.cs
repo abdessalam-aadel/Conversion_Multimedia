@@ -43,6 +43,7 @@
             this.txtBoxH.Enabled = false;
             this.txtBoxH.Location = new System.Drawing.Point(88, 100);
             this.txtBoxH.Name = "txtBoxH";
+            this.txtBoxH.ShortcutsEnabled = false;
             this.txtBoxH.Size = new System.Drawing.Size(114, 20);
             this.txtBoxH.TabIndex = 11;
             this.txtBoxH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBoxH_KeyPress);
@@ -52,6 +53,7 @@
             this.txtBoxW.Enabled = false;
             this.txtBoxW.Location = new System.Drawing.Point(88, 73);
             this.txtBoxW.Name = "txtBoxW";
+            this.txtBoxW.ShortcutsEnabled = false;
             this.txtBoxW.Size = new System.Drawing.Size(114, 20);
             this.txtBoxW.TabIndex = 10;
             this.txtBoxW.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBoxW_KeyPress);
