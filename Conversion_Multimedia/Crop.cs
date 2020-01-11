@@ -43,6 +43,8 @@ namespace Conversion_Multimedia
                 videoType = Path.GetExtension(ofd.SafeFileName); // Get File Extension
                 EnabledBtnAndTxt();
             }
+            else
+                return;
         }
         // Methode Enabled button and textbox
         public void EnabledBtnAndTxt()

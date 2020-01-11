@@ -129,6 +129,8 @@ namespace Conversion_Multimedia
                 txtBoxW.Enabled = true;
                 txtBoxH.Enabled = true;
             }
+            else
+                return;
         }
     }
 }
