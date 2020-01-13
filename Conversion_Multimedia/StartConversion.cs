@@ -29,8 +29,7 @@ namespace Conversion_Multimedia
                 "Convert a Video to X Images",
                 "Compress .avi to VCD mpeg2",
                 ".webp to .png",
-                "JPEG compression quality",
-                "PNG compression quality"
+                "JPEG & PNG compression quality"
             };
             for (int i = 0; i < typesConversion.Length; i++)
             {

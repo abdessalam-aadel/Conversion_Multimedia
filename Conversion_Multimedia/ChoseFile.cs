@@ -92,14 +92,8 @@ namespace Conversion_Multimedia
                     TypesOutput = ".png";
                     CommandFFmpegMiddle = " ";
                     break;
-                case "JPEG compression quality":
-                    ofd.Filter = "Images files (*.jpg) | *.jpg";
-                    TypesOutput = ".jpg";
-                    CommandFFmpegMiddle = " -compression_level 100 ";
-                    break;
-                case "PNG compression quality":
-                    ofd.Filter = "Images files (*.png) | *.png";
-                    TypesOutput = ".png";
+                case "JPEG & PNG compression quality":
+                    ofd.Filter = "Images files (*.jpg, *.png) | *.jpg; *.png";
                     CommandFFmpegMiddle = " -compression_level 100 ";
                     break;
                 default:
@@ -114,6 +108,10 @@ namespace Conversion_Multimedia
                 txtboxFileName.Text = ofd.FileName;
                 BtnStart.Enabled = true;
                 labelFilename.Text = Path.GetFileNameWithoutExtension(ofd.SafeFileName);
+                if (Types == "JPEG & PNG compression quality" && Path.GetExtension(ofd.FileName) == ".png")
+                    TypesOutput = ".png";
+                else
+                    TypesOutput = ".jpg";
             }
             else
                 return;
