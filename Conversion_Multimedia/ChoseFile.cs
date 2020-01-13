@@ -77,7 +77,7 @@ namespace Conversion_Multimedia
                     CommandFFmpegMiddle = " -codec copy ";
                     break;
                 case "Convert a Video to X Images":
-                    ofd.Filter = "Videos files (*.mpg) | *.mpg";
+                    ofd.Filter = "Videos files (*.mp4, *.mov, *.m4a, *.3gp, *.3g2, *.mj2, *.avi, *.flv, *.wav) | *.mp4; *.mov; *.m4a; *.3gp; *.3g2; *.mj2; *.avi; *.flv; *.wav";
                     TypesOutput = ".jpg";
                     ImagesOutput = "%d";
                     CommandFFmpegMiddle = " ";
