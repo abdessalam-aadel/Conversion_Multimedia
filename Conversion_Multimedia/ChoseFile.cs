@@ -94,7 +94,13 @@ namespace Conversion_Multimedia
                     break;
                 case "JPEG & PNG compression quality":
                     ofd.Filter = "Images files (*.jpg, *.png) | *.jpg; *.png";
+                    TypesOutput = ".jpg";
                     CommandFFmpegMiddle = " -compression_level 100 ";
+                    break;
+                case "Change Bitrate to 10MB":
+                    ofd.Filter = "Videos files (*.mp4) | *.mp4";
+                    TypesOutput = ".mp4";
+                    CommandFFmpegMiddle = " -b:v 10M ";
                     break;
                 default:
                     MessageBox.Show("This méthode could not exist !");
@@ -110,8 +116,6 @@ namespace Conversion_Multimedia
                 labelFilename.Text = Path.GetFileNameWithoutExtension(ofd.SafeFileName);
                 if (Types == "JPEG & PNG compression quality" && Path.GetExtension(ofd.FileName) == ".png")
                     TypesOutput = ".png";
-                else
-                    TypesOutput = ".jpg";
             }
             else
                 return;
