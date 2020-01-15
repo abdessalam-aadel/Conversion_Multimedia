@@ -2,14 +2,14 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.IO;
-using System.Reflection;
 
 namespace Conversion_Multimedia
 {
     public partial class AddSubtitles : UserControl
     {
-        public string videoName, videoType, currentDir, subName;
-        
+        public string videoType, currentDir, subName;
+        public string videoName = "";
+
         public AddSubtitles() => InitializeComponent();
 
         // Customize Open file dialog 
@@ -36,12 +36,59 @@ namespace Conversion_Multimedia
             else
                 return;
         }
+        
+        // Activate Drag and Drop in AddSubtitles User control ...
+        private void AddSubtitles_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void AddSubtitles_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            FileInfo finfo = new FileInfo(files[0]);
+            string fileExtension = finfo.Extension;
+            switch (fileExtension)
+            {
+                case ".mp4":
+                case ".mov":
+                case ".m4a":
+                case ".3gp":
+                case ".3g2":
+                case ".mj2":
+                    txtBoxVideoFilename.Text = finfo.FullName;
+                    txtBoxSubFilename.Enabled = true;
+                    BtnLoadSub.Enabled = true;
+                    videoName = Path.GetFileNameWithoutExtension(finfo.FullName);
+                    videoType = fileExtension;
+                    break;
+                case ".srt":
+                case ".ass":
+                    if (videoName != "")
+                    {
+                        txtBoxSubFilename.Text = finfo.FullName;
+                        BtnStartAdd.Enabled = true;
+                        BtnLoadSub.Enabled = false;
+                        BtnLoadVideo.Enabled = false;
+                        subName = finfo.Name;
+                        string subSourcePath = finfo.DirectoryName;
+                        currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                        string sourceFile = finfo.FullName;
+                        string destFile = Path.Combine(currentDir, subName);
+                        File.Copy(sourceFile, destFile, true);
+                        this.AllowDrop = false;
+                        break;
+                    }
+                    else
+                        break;
+            }
+        }
 
         // Handle event click Button Load Subtitles ...
         private void BtnLoadSub_Click(object sender, EventArgs e)
         {
             ofd.FileName = ""; // Clear open file dialog FileName
-            ofd.Filter = "Subtitles files (*.srt) | *.srt";
+            ofd.Filter = "Subtitles files (*.srt, *.ass) | *.srt; *.ass";
             DialogResult result = ofd.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -54,7 +101,8 @@ namespace Conversion_Multimedia
                 string subSourcePath = Path.GetDirectoryName(ofd.FileName);
                 // Get current Directory of file Execution
                 currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                //Or currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                // Or use System.Reflection
+                // currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
                 // Use Path class to manipulate file and directory paths.
                 string sourceFile = Path.Combine(subSourcePath, subName);
                 string destFile = Path.Combine(currentDir, subName);
@@ -107,7 +155,7 @@ namespace Conversion_Multimedia
                     process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + inputVideo + "\"" 
                         + " -vf subtitles=" + subName
                         + output);
-                    
+
                     // Flush & Close StandarInput
                     process.StandardInput.Flush();
                     process.StandardInput.Close();
@@ -154,6 +202,7 @@ namespace Conversion_Multimedia
                     Console.WriteLine(ioex.Message);
                 }
             }
+            this.AllowDrop = true;
         }
     }
 }

@@ -112,6 +112,7 @@
             // 
             // AddSubtitles
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.BtnStartAdd);
@@ -122,6 +123,8 @@
             this.Controls.Add(this.BtnLoadSub);
             this.Name = "AddSubtitles";
             this.Size = new System.Drawing.Size(420, 124);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.AddSubtitles_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.AddSubtitles_DragEnter);
             this.ResumeLayout(false);
             this.PerformLayout();
 
