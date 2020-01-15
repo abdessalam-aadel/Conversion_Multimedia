@@ -161,7 +161,6 @@ namespace Conversion_Multimedia
                     // Fix issue : ffmpeg not working with filenames that have whitespace
                     // Add double quotes to input filenames
                     process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output);
-
                     // Restart value of ImagesOutput
                     ImagesOutput = "";
                     // Flush & Close StandarInput
@@ -203,7 +202,7 @@ namespace Conversion_Multimedia
                     process.Close();
                 }
                 ChangeToDefault();
-                MessageBox.Show("Your conversion is completed successfully","Success",
+                MessageBox.Show("Your conversion is completed successfully", "Success",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
             }

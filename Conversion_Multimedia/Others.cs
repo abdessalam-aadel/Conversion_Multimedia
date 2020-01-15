@@ -62,17 +62,24 @@ namespace Conversion_Multimedia
                 }
                 else
                     return;
-                this.Cursor = DefaultCursor;
                 FrmInfo frmInfo = new FrmInfo();
                 frmInfo.GetValue(rtxtBoxInfo.Text);
                 frmInfo.ShowDialog();
-                ofd.FileName = "";
-                rtxtBoxInfo.Clear();
+                ChangeToDefault();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                ChangeToDefault();
             }
+        }
+
+        // Change to default
+        public void ChangeToDefault()
+        {
+            this.Cursor = DefaultCursor;
+            ofd.FileName = "";
+            rtxtBoxInfo.Clear();
         }
 
         private void process1_ErrorDataReceived(object sender, DataReceivedEventArgs e)
@@ -80,6 +87,7 @@ namespace Conversion_Multimedia
             rtxtBoxInfo.Text += e.Data + "\n";
             rtxtBoxInfo.Update();
         }
+
         // -- Start -- Handle event Checked Changed for checkbox
         private void CheckBoxCrop_CheckedChanged(object sender, EventArgs e)
         {
