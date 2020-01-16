@@ -94,6 +94,7 @@
             // 
             // ChoseFile
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.labelFilename);
@@ -103,6 +104,9 @@
             this.Controls.Add(this.BtnLoad);
             this.Name = "ChoseFile";
             this.Size = new System.Drawing.Size(420, 124);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ChoseFile_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.ChoseFile_DragEnter);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ChoseFile_MouseMove);
             this.ResumeLayout(false);
             this.PerformLayout();
 
