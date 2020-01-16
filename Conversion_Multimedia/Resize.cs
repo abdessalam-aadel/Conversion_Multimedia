@@ -9,6 +9,12 @@ namespace Conversion_Multimedia
     {
         public Resize() => InitializeComponent();
         public string videoName, videoType;
+        public bool ifChanged;
+
+        public bool SetChanged
+        {
+            set => ifChanged = value;
+        }
 
         // Customize Open file dialog 
         OpenFileDialog ofd = new OpenFileDialog
@@ -95,12 +101,13 @@ namespace Conversion_Multimedia
             this.Cursor = DefaultCursor;
             txtBoxVideoFilename.Text = "Chose your video file ...";
             BtnLoadVideo.Enabled = true;
-            BtnStartResize.Enabled = true;
+            BtnStartResize.Enabled = false;
             txtBoxW.Text = "";
             txtBoxH.Text = "";
             ofd.FileName = "";
             txtBoxW.Enabled = false;
             txtBoxH.Enabled = false;
+            ifChanged = false;
         }
 
         // Start methode : Not Enter a Key String just a key number...
@@ -119,6 +126,44 @@ namespace Conversion_Multimedia
         // Start -- Handle event KeyPress ...
         private void txtBoxW_KeyPress(object sender, KeyPressEventArgs e) => Not_KeyString(e);
         private void txtBoxH_KeyPress(object sender, KeyPressEventArgs e) => Not_KeyString(e);
+        // Activate Drag and Drop in Resize ...
+        private void Resize_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void Resize_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            FileInfo finfo = new FileInfo(files[0]);
+            string fileExtension = finfo.Extension;
+            switch (fileExtension)
+            {
+                case ".mp4":
+                case ".mov":
+                case ".m4a":
+                case ".3gp":
+                case ".3g2":
+                case ".mj2":
+                case ".avi":
+                case ".flv":
+                case ".wav":
+                    txtBoxVideoFilename.Text = finfo.FullName;
+                    videoName = Path.GetFileNameWithoutExtension(finfo.FullName);
+                    videoType = finfo.Name;
+                    BtnStartResize.Enabled = true;
+                    txtBoxW.Enabled = true;
+                    txtBoxH.Enabled = true;
+                    break;
+            }
+        }
+
+        private void Resize_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (ifChanged)
+                ChangeToDefault();
+        }
+
         // End -- Event KeyPress ...
 
         // Handle event click Button Load a video file ...

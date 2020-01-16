@@ -127,6 +127,7 @@
             // 
             // Resize
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.txtBoxVideoFilename);
@@ -139,6 +140,9 @@
             this.Controls.Add(this.label3);
             this.Name = "Resize";
             this.Size = new System.Drawing.Size(420, 124);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Resize_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Resize_DragEnter);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Resize_MouseMove);
             this.ResumeLayout(false);
             this.PerformLayout();
 
