@@ -125,6 +125,7 @@
             this.Size = new System.Drawing.Size(420, 124);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.AddSubtitles_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.AddSubtitles_DragEnter);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AddSubtitles_MouseMove);
             this.ResumeLayout(false);
             this.PerformLayout();
 

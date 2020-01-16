@@ -9,6 +9,11 @@ namespace Conversion_Multimedia
     {
         public string videoType, currentDir, subName;
         public string videoName = "";
+        public bool ifChanged;
+        public bool SetChanged
+        {
+            set => ifChanged = value;
+        }
 
         public AddSubtitles() => InitializeComponent();
 
@@ -82,6 +87,12 @@ namespace Conversion_Multimedia
                     else
                         break;
             }
+        }
+
+        private void AddSubtitles_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (ifChanged)
+                ChangeToDefault();
         }
 
         // Handle event click Button Load Subtitles ...
@@ -199,10 +210,12 @@ namespace Conversion_Multimedia
                 }
                 catch (IOException ioex)
                 {
-                    Console.WriteLine(ioex.Message);
+                    MessageBox.Show(ioex.Message);
                 }
             }
             this.AllowDrop = true;
+            ifChanged = false;
+            videoName = "";
         }
     }
 }
