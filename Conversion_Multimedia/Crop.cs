@@ -10,6 +10,12 @@ namespace Conversion_Multimedia
         public Crop() => InitializeComponent();
 
         public string videoName, videoType;
+        public bool ifChanged;
+
+        public bool SetChanged
+        {
+            set => ifChanged = value;
+        }
 
         // Customize Open file dialog 
         OpenFileDialog ofd = new OpenFileDialog
@@ -134,6 +140,42 @@ namespace Conversion_Multimedia
                 MessageBox.Show("Please enter your video size ... \n\t(width & height)\nAnd enter starting position ...\n\t(x , y)");
         }
 
+        // Activate Drag and Drop in Crop ...
+        private void Crop_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void Crop_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            FileInfo finfo = new FileInfo(files[0]);
+            string fileExtension = finfo.Extension;
+            switch (fileExtension)
+            {
+                case ".mp4":
+                case ".mov":
+                case ".m4a":
+                case ".3gp":
+                case ".3g2":
+                case ".mj2":
+                case ".avi":
+                case ".flv":
+                case ".wav":
+                    txtBoxVideoFilename.Text = finfo.FullName;
+                    videoName = Path.GetFileNameWithoutExtension(finfo.FullName);
+                    videoType = finfo.Name;
+                    EnabledBtnAndTxt();
+                    break;
+            }
+        }
+
+        private void Crop_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (ifChanged)
+                ChangeToDefault();
+        }
+
         // Methode Change to default
         private void ChangeToDefault()
         {
@@ -155,6 +197,7 @@ namespace Conversion_Multimedia
             txtBoxY.Text = "";
             // Clear FileName of Open file dialog
             ofd.FileName = "";
+            ifChanged = false;
         }
     }
 }
