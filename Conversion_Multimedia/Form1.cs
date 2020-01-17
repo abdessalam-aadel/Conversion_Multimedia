@@ -86,7 +86,6 @@ namespace Conversion_Multimedia
         private void BtnBack_Click(object sender, EventArgs e)
         {
             others1.BringToFront();
-            crop1.SetChanged = GetChanged();
             BtnBack.Visible = false;
             BtnNext.Visible = true;
             ifChanged = true;
