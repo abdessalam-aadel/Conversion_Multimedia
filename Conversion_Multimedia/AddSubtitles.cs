@@ -41,13 +41,107 @@ namespace Conversion_Multimedia
             else
                 return;
         }
-        
+
+        // Handle event click Button Load Subtitles ...
+        private void BtnLoadSub_Click(object sender, EventArgs e)
+        {
+            ofd.FileName = ""; // Clear open file dialog FileName
+            ofd.Filter = "Subtitles files (*.srt, *.ass) | *.srt; *.ass";
+            DialogResult result = ofd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                txtBoxSubFilename.Text = ofd.FileName;
+                BtnStartAdd.Enabled = true;
+                BtnLoadSub.Enabled = false;
+                BtnLoadVideo.Enabled = false;
+                // Copy Subtitle file to Assembly directory ...
+                subName = ofd.SafeFileName;
+                string subSourcePath = Path.GetDirectoryName(ofd.FileName);
+                // Get current Directory of file Execution
+                currentDir = AppDomain.CurrentDomain.BaseDirectory;
+                // Or use System.Reflection
+                // currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                // Use Path class to manipulate file and directory paths.
+                string sourceFile = Path.Combine(subSourcePath, subName);
+                string destFile = Path.Combine(currentDir, subName);
+                // To copy a file to another location and 
+                // overwrite the destination file if it already exists.
+                File.Copy(sourceFile, destFile, true);
+            }
+            else
+                return;
+        }
+
+        // Handle event click Button Start Add Subtitles to video ...
+        private void BtnStartAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // uses an instance of the Process class to start a process
+                using (Process process = new Process())
+                {
+                    // change the cursor and disable button start
+                    this.Cursor = Cursors.WaitCursor;
+                    BtnStartAdd.Enabled = false;
+
+                    process.StartInfo.UseShellExecute = false;
+                    // run the cmd process
+                    process.StartInfo.FileName = "cmd.exe";
+                    // Given that is started without a window
+                    process.StartInfo.CreateNoWindow = true;
+
+                    // uses the redirected input-output
+                    process.StartInfo.RedirectStandardInput = true;
+                    process.StartInfo.RedirectStandardOutput = true;
+
+                    // Start process
+                    process.Start();
+
+                    // Declare variable input and output of FFmpeg tools
+                    string inputVideo = txtBoxVideoFilename.Text;
+                    string inputSubtitle = txtBoxSubFilename.Text;
+
+                    string output = " output_" + videoName.Replace(" ", "_") + videoType;
+                    string ffmpeg;
+
+                    // Start Condition : if you have win32 or win64
+                    if (Environment.Is64BitOperatingSystem)
+                        ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
+                    else
+                        ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
+
+                    // Start Command line ...
+                    process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + inputVideo + "\""
+                        + " -vf subtitles=" + subName
+                        + output);
+
+                    // Flush & Close StandarInput
+                    process.StandardInput.Flush();
+                    process.StandardInput.Close();
+
+                    // Wait for Exit
+                    process.WaitForExit();
+
+                    // Close The Process
+                    process.Close();
+                    ChangeToDefault();
+                    MessageBox.Show("Your subtitles has been added successfully", "Success",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                ChangeToDefault();
+            }
+        }
+
         // Activate Drag and Drop in AddSubtitles User control ...
         private void AddSubtitles_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
         }
-
         private void AddSubtitles_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -88,105 +182,11 @@ namespace Conversion_Multimedia
                         break;
             }
         }
-
+        // Handle Event Mouse Move
         private void AddSubtitles_MouseMove(object sender, MouseEventArgs e)
         {
             if (ifChanged)
                 ChangeToDefault();
-        }
-
-        // Handle event click Button Load Subtitles ...
-        private void BtnLoadSub_Click(object sender, EventArgs e)
-        {
-            ofd.FileName = ""; // Clear open file dialog FileName
-            ofd.Filter = "Subtitles files (*.srt, *.ass) | *.srt; *.ass";
-            DialogResult result = ofd.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                txtBoxSubFilename.Text = ofd.FileName;
-                BtnStartAdd.Enabled = true;
-                BtnLoadSub.Enabled = false;
-                BtnLoadVideo.Enabled = false;
-                // Copy Subtitle file to Assembly directory ...
-                subName = ofd.SafeFileName;
-                string subSourcePath = Path.GetDirectoryName(ofd.FileName);
-                // Get current Directory of file Execution
-                currentDir = AppDomain.CurrentDomain.BaseDirectory;
-                // Or use System.Reflection
-                // currentDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                // Use Path class to manipulate file and directory paths.
-                string sourceFile = Path.Combine(subSourcePath, subName);
-                string destFile = Path.Combine(currentDir, subName);
-                // To copy a file to another location and 
-                // overwrite the destination file if it already exists.
-                File.Copy(sourceFile, destFile, true);
-            }
-            else
-                return;
-        }
-
-        // Handle event click Button Start Add Subtitles to video ...
-        private void BtnStartAdd_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // change the cursor and disable button start
-                this.Cursor = Cursors.WaitCursor;
-                BtnStartAdd.Enabled = false;
-                // uses an instance of the Process class to start a process
-                using (Process process = new Process())
-                {
-                    process.StartInfo.UseShellExecute = false;
-                    // run the cmd process
-                    process.StartInfo.FileName = "cmd.exe";
-                    // Given that is started without a window
-                    process.StartInfo.CreateNoWindow = true;
-
-                    // uses the redirected input-output
-                    process.StartInfo.RedirectStandardInput = true;
-                    process.StartInfo.RedirectStandardOutput = true;
-
-                    // Start process
-                    process.Start();
-
-                    // Declare variable input and output of FFmpeg tools
-                    string inputVideo = txtBoxVideoFilename.Text;
-                    string inputSubtitle = txtBoxSubFilename.Text;
-
-                    string output = " output_" + videoName.Replace(" ", "_") + videoType;
-                    string ffmpeg;
-
-                    // Start Condition : if you have win32 or win64
-                    if (Environment.Is64BitOperatingSystem)
-                        ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-                    else
-                        ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-
-                    // Start Command line ...
-                    process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + inputVideo + "\"" 
-                        + " -vf subtitles=" + subName
-                        + output);
-
-                    // Flush & Close StandarInput
-                    process.StandardInput.Flush();
-                    process.StandardInput.Close();
-
-                    // Wait for Exit
-                    process.WaitForExit();
-
-                    // Close The Process
-                    process.Close();
-                }
-                ChangeToDefault();
-                MessageBox.Show("Your subtitles has been added successfully", "Success",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                ChangeToDefault();
-            }
         }
 
         // Methode Change to default

@@ -25,6 +25,22 @@ namespace Conversion_Multimedia
             Title = "Chose your file"
         };
 
+        // handle Button Load
+        private void BtnLoadVideo_Click(object sender, EventArgs e)
+        {
+            ofd.Filter = "Videos files (*.mp4, *.mov, *.m4a, *.3gp, *.3g2, *.mj2, *.avi, *.flv, *.wav) | *.mp4; *.mov; *.m4a; *.3gp; *.3g2; *.mj2; *.avi; *.flv; *.wav";
+            DialogResult result = ofd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                txtBoxVideoFilename.Text = ofd.FileName;
+                videoName = Path.GetFileNameWithoutExtension(ofd.SafeFileName); // Get File name without extension
+                videoType = Path.GetExtension(ofd.SafeFileName); // Get File Extension
+                EnabledBtnAndTxt();
+            }
+            else
+                return;
+        }
+
         // Start methode : Not Enter a Key String just a key number...
         private static void Not_KeyString(KeyPressEventArgs e)
         {
@@ -43,21 +59,7 @@ namespace Conversion_Multimedia
         private void txtBoxW_KeyPress(object sender, KeyPressEventArgs e) => Not_KeyString(e);
         private void txtBoxH_KeyPress(object sender, KeyPressEventArgs e) => Not_KeyString(e);
         // End -- Event KeyPress ...
-
-        private void BtnLoadVideo_Click(object sender, EventArgs e)
-        {
-            ofd.Filter = "Videos files (*.mp4, *.mov, *.m4a, *.3gp, *.3g2, *.mj2, *.avi, *.flv, *.wav) | *.mp4; *.mov; *.m4a; *.3gp; *.3g2; *.mj2; *.avi; *.flv; *.wav";
-            DialogResult result = ofd.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                txtBoxVideoFilename.Text = ofd.FileName;
-                videoName = Path.GetFileNameWithoutExtension(ofd.SafeFileName); // Get File name without extension
-                videoType = Path.GetExtension(ofd.SafeFileName); // Get File Extension
-                EnabledBtnAndTxt();
-            }
-            else
-                return;
-        }
+        
         // Methode Enabled button and textbox
         public void EnabledBtnAndTxt()
         {
@@ -75,13 +77,14 @@ namespace Conversion_Multimedia
             {
                 try
                 {
-                    // change the cursor and disable button start
-                    this.Cursor = Cursors.WaitCursor;
-                    BtnLoadVideo.Enabled = false;
-                    btnStartCrop.Enabled = false;
                     // uses an instance of the Process class to start a process
                     using (Process process = new Process())
                     {
+                        // change the cursor and disable button start
+                        this.Cursor = Cursors.WaitCursor;
+                        BtnLoadVideo.Enabled = false;
+                        btnStartCrop.Enabled = false;
+
                         process.StartInfo.UseShellExecute = false;
                         // run the cmd process
                         process.StartInfo.FileName = "cmd.exe";
@@ -124,11 +127,11 @@ namespace Conversion_Multimedia
 
                         // Close The Process
                         process.Close();
+                        ChangeToDefault();
+                        MessageBox.Show("Your video have been croped successfully", "Success",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
                     }
-                    ChangeToDefault();
-                    MessageBox.Show("Your video have been croped successfully", "Success",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -145,7 +148,6 @@ namespace Conversion_Multimedia
         {
             e.Effect = DragDropEffects.Copy;
         }
-
         private void Crop_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -163,13 +165,13 @@ namespace Conversion_Multimedia
                 case ".flv":
                 case ".wav":
                     txtBoxVideoFilename.Text = finfo.FullName;
-                    videoName = Path.GetFileNameWithoutExtension(finfo.FullName);
-                    videoType = finfo.Name;
+                    videoName = Path.GetFileNameWithoutExtension(finfo.Name);
+                    videoType = fileExtension;
                     EnabledBtnAndTxt();
                     break;
             }
         }
-
+        // Handle Event Mouse Move
         private void Crop_MouseMove(object sender, MouseEventArgs e)
         {
             if (ifChanged)

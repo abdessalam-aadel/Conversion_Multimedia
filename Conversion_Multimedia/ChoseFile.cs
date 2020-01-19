@@ -13,6 +13,17 @@ namespace Conversion_Multimedia
         public string Types, TypesOutput, CommandFFmpegMiddle, ImagesOutput;
         public bool ifChanged;
         public List<string> fileExtension = new List<string>();
+        // passing value of type convertion from Form to userControl (ChoseFile.cs)
+        public string PassingTypeOfConversion
+        {
+            set => Types = value;
+        }
+        // Set value ifChanged
+        public bool SetChanged
+        {
+            set => ifChanged = value;
+        }
+        public ChoseFile() => InitializeComponent();
 
         // Customize Open file dialog 
         OpenFileDialog ofd = new OpenFileDialog
@@ -22,19 +33,7 @@ namespace Conversion_Multimedia
             Title = "Chose your file"
         };
 
-        public ChoseFile() => InitializeComponent();
-
-        // passing value of type convertion from Form to userControl (ChoseFile.cs)
-        public string PassingTypeOfConversion
-        {
-            set => Types = value;
-        }
-
-        public bool SetChanged
-        {
-            set => ifChanged = value;
-        }
-
+        // Handle Button Load
         private void BtnLoad_Click(object sender, EventArgs e)
         {
             LookingFor_yourType();
@@ -50,14 +49,14 @@ namespace Conversion_Multimedia
             else
                 return;
         }
-
+        
         // handle Methode Looking for your type
         public void LookingFor_yourType()
         {
             switch (Types)
             {
                 case "Extract sound from video":
-                    ofd.Filter = "Videos files (*.mp4, *.avi, *.flv, *.wav ) | *.mp4; *.avi; *.flv; *.wav";
+                    ofd.Filter = "Videos files (*.mp4, *.avi, *.flv, *.wav) | *.mp4; *.avi; *.flv; *.wav";
                     fileExtension.Clear();
                     fileExtension.Add(".mp4");
                     fileExtension.Add(".avi");
@@ -174,7 +173,6 @@ namespace Conversion_Multimedia
         {
             e.Effect = DragDropEffects.Copy;
         }
-
         private void ChoseFile_DragDrop(object sender, DragEventArgs e)
         {
             LookingFor_yourType();
@@ -186,30 +184,33 @@ namespace Conversion_Multimedia
                 {
                     txtboxFileName.Text = finfo.FullName;
                     BtnStart.Enabled = true;
-                    labelFilename.Text = Path.GetFileNameWithoutExtension(finfo.FullName);
+                    labelFilename.Text = Path.GetFileNameWithoutExtension(finfo.Name);
                     if (Types == "JPEG & PNG compression quality" && finfo.Extension == ".png")
                         TypesOutput = ".png";
                 }
             }
         }
-
+        // Handle Event Mouse Move
         private void ChoseFile_MouseMove(object sender, MouseEventArgs e)
         {
             if (ifChanged)
+            {
                 ChangeToDefault();
+                rtxtboxCmd.Text = "";
+            }
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
             try
             {
-                // change the cursor and disable button start
-                this.Cursor = Cursors.WaitCursor;
-                BtnStart.Enabled = false;
-
                 // uses an instance of the Process class to start a process
                 using (Process process = new Process())
                 {
+                    // change the cursor and disable button start
+                    this.Cursor = Cursors.WaitCursor;
+                    BtnStart.Enabled = false;
+
                     process.StartInfo.UseShellExecute = false;
                     // run the cmd process
                     process.StartInfo.FileName = "cmd.exe";
@@ -281,11 +282,11 @@ namespace Conversion_Multimedia
 
                     // Close The Process
                     process.Close();
+                    ChangeToDefault();
+                    MessageBox.Show("Your conversion is completed successfully", "Success",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
                 }
-                ChangeToDefault();
-                MessageBox.Show("Your conversion is completed successfully", "Success",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

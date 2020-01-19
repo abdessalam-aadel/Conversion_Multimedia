@@ -23,7 +23,25 @@ namespace Conversion_Multimedia
             RestoreDirectory = true,
             Title = "Chose your file"
         };
-        
+
+        // Handle event click Button Load a video file ...
+        private void BtnLoadVideo_Click(object sender, EventArgs e)
+        {
+            ofd.Filter = "Videos files (*.mp4, *.mov, *.m4a, *.3gp, *.3g2, *.mj2, *.avi, *.flv, *.wav) | *.mp4; *.mov; *.m4a; *.3gp; *.3g2; *.mj2; *.avi; *.flv; *.wav";
+            DialogResult result = ofd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                txtBoxVideoFilename.Text = ofd.FileName;
+                videoName = Path.GetFileNameWithoutExtension(ofd.SafeFileName); // Get File name without extension
+                videoType = Path.GetExtension(ofd.SafeFileName); // Get File Extension
+                BtnStartResize.Enabled = true;
+                txtBoxW.Enabled = true;
+                txtBoxH.Enabled = true;
+            }
+            else
+                return;
+        }
+
         // Handle event click of Button Resize ...
         private void BtnStartResize_Click(object sender, EventArgs e)
         {
@@ -32,13 +50,14 @@ namespace Conversion_Multimedia
             {
                 try
                 {
-                    // change the cursor and disable button start
-                    this.Cursor = Cursors.WaitCursor;
-                    BtnLoadVideo.Enabled = false;
-                    BtnStartResize.Enabled = false;
                     // uses an instance of the Process class to start a process
                     using (Process process = new Process())
                     {
+                        // change the cursor and disable button start
+                        this.Cursor = Cursors.WaitCursor;
+                        BtnLoadVideo.Enabled = false;
+                        BtnStartResize.Enabled = false;
+
                         process.StartInfo.UseShellExecute = false;
                         // run the cmd process
                         process.StartInfo.FileName = "cmd.exe";
@@ -79,11 +98,11 @@ namespace Conversion_Multimedia
 
                         // Close The Process
                         process.Close();
+                        ChangeToDefault();
+                        MessageBox.Show("Your video have been resized successfully", "Success",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
                     }
-                    ChangeToDefault();
-                    MessageBox.Show("Your video have been resized successfully", "Success",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -93,21 +112,6 @@ namespace Conversion_Multimedia
             }
             else
                 MessageBox.Show("Please enter your video size ... \n\t(width & height)");
-        }
-
-        // Methode Change to default
-        private void ChangeToDefault()
-        {
-            this.Cursor = DefaultCursor;
-            txtBoxVideoFilename.Text = "Chose your video file ...";
-            BtnLoadVideo.Enabled = true;
-            BtnStartResize.Enabled = false;
-            txtBoxW.Text = "";
-            txtBoxH.Text = "";
-            ofd.FileName = "";
-            txtBoxW.Enabled = false;
-            txtBoxH.Enabled = false;
-            ifChanged = false;
         }
 
         // Start methode : Not Enter a Key String just a key number...
@@ -131,7 +135,6 @@ namespace Conversion_Multimedia
         {
             e.Effect = DragDropEffects.Copy;
         }
-
         private void Resize_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -149,39 +152,35 @@ namespace Conversion_Multimedia
                 case ".flv":
                 case ".wav":
                     txtBoxVideoFilename.Text = finfo.FullName;
-                    videoName = Path.GetFileNameWithoutExtension(finfo.FullName);
-                    videoType = finfo.Name;
+                    videoName = Path.GetFileNameWithoutExtension(finfo.Name);
+                    videoType = finfo.Extension;
                     BtnStartResize.Enabled = true;
                     txtBoxW.Enabled = true;
                     txtBoxH.Enabled = true;
                     break;
             }
-        }
+        }// End -- Event KeyPress ...
 
+        // Handle Event Mouse Move
         private void Resize_MouseMove(object sender, MouseEventArgs e)
         {
             if (ifChanged)
                 ChangeToDefault();
         }
-
-        // End -- Event KeyPress ...
-
-        // Handle event click Button Load a video file ...
-        private void BtnLoadVideo_Click(object sender, EventArgs e)
+        
+        // Methode Change to default
+        private void ChangeToDefault()
         {
-            ofd.Filter = "Videos files (*.mp4, *.mov, *.m4a, *.3gp, *.3g2, *.mj2, *.avi, *.flv, *.wav) | *.mp4; *.mov; *.m4a; *.3gp; *.3g2; *.mj2; *.avi; *.flv; *.wav";
-            DialogResult result = ofd.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                txtBoxVideoFilename.Text = ofd.FileName;
-                videoName = Path.GetFileNameWithoutExtension(ofd.SafeFileName); // Get File name without extension
-                videoType = Path.GetExtension(ofd.SafeFileName); // Get File Extension
-                BtnStartResize.Enabled = true;
-                txtBoxW.Enabled = true;
-                txtBoxH.Enabled = true;
-            }
-            else
-                return;
+            this.Cursor = DefaultCursor;
+            txtBoxVideoFilename.Text = "Chose your video file ...";
+            BtnLoadVideo.Enabled = true;
+            BtnStartResize.Enabled = false;
+            txtBoxW.Text = "";
+            txtBoxH.Text = "";
+            ofd.FileName = "";
+            txtBoxW.Enabled = false;
+            txtBoxH.Enabled = false;
+            ifChanged = false;
         }
     }
 }
