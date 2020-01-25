@@ -81,8 +81,9 @@ namespace Conversion_Multimedia
                 using (Process process = new Process())
                 {
                     // change the cursor and disable button start
-                    this.Cursor = Cursors.WaitCursor;
+                    Cursor = Cursors.WaitCursor;
                     BtnStartAdd.Enabled = false;
+                    panelLoading.Visible = true;
 
                     process.StartInfo.UseShellExecute = false;
                     // run the cmd process
@@ -121,7 +122,6 @@ namespace Conversion_Multimedia
 
                     // Wait for Exit
                     process.WaitForExit();
-
                     // Close The Process
                     process.Close();
                     ChangeToDefault();
@@ -141,9 +141,12 @@ namespace Conversion_Multimedia
         private void AddSubtitles_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
+            pictureDrag5.BringToFront();
+            pictureDrag5.Visible = true;
         }
         private void AddSubtitles_DragDrop(object sender, DragEventArgs e)
         {
+            pictureDrag5.Visible = false;
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             FileInfo finfo = new FileInfo(files[0]);
             string fileExtension = finfo.Extension;
@@ -175,13 +178,19 @@ namespace Conversion_Multimedia
                         string sourceFile = finfo.FullName;
                         string destFile = Path.Combine(currentDir, subName);
                         File.Copy(sourceFile, destFile, true);
-                        this.AllowDrop = false;
+                        AllowDrop = false;
                         break;
                     }
                     else
                         break;
             }
         }
+
+        private void AddSubtitles_DragLeave(object sender, EventArgs e)
+        {
+            pictureDrag5.Visible = false;
+        }
+
         // Handle Event Mouse Move
         private void AddSubtitles_MouseMove(object sender, MouseEventArgs e)
         {
@@ -192,7 +201,7 @@ namespace Conversion_Multimedia
         // Methode Change to default
         private void ChangeToDefault()
         {
-            this.Cursor = DefaultCursor;
+            Cursor = DefaultCursor;
             txtBoxVideoFilename.Text = "Chose your video file ...";
             txtBoxSubFilename.Text = "Chose your subtitle ...";
             txtBoxSubFilename.Enabled = false;
@@ -213,9 +222,10 @@ namespace Conversion_Multimedia
                     MessageBox.Show(ioex.Message);
                 }
             }
-            this.AllowDrop = true;
+            AllowDrop = true;
             ifChanged = false;
             videoName = "";
+            panelLoading.Visible = false;
         }
     }
 }
