@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Crop));
             this.txtBoxX = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,6 +41,13 @@
             this.txtBoxVideoFilename = new System.Windows.Forms.TextBox();
             this.BtnLoadVideo = new System.Windows.Forms.Button();
             this.btnStartCrop = new System.Windows.Forms.Button();
+            this.pictureDrag2 = new System.Windows.Forms.PictureBox();
+            this.panelLoading = new System.Windows.Forms.Panel();
+            this.labelWait2 = new System.Windows.Forms.Label();
+            this.pictureLoading = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureDrag2)).BeginInit();
+            this.panelLoading.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureLoading)).BeginInit();
             this.SuspendLayout();
             // 
             // txtBoxX
@@ -49,7 +57,7 @@
             this.txtBoxX.Name = "txtBoxX";
             this.txtBoxX.ShortcutsEnabled = false;
             this.txtBoxX.Size = new System.Drawing.Size(114, 20);
-            this.txtBoxX.TabIndex = 0;
+            this.txtBoxX.TabIndex = 9;
             this.txtBoxX.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBoxX_KeyPress);
             // 
             // label1
@@ -77,7 +85,7 @@
             this.txtBoxY.Name = "txtBoxY";
             this.txtBoxY.ShortcutsEnabled = false;
             this.txtBoxY.Size = new System.Drawing.Size(114, 20);
-            this.txtBoxY.TabIndex = 3;
+            this.txtBoxY.TabIndex = 10;
             this.txtBoxY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBoxY_KeyPress);
             // 
             // label3
@@ -105,7 +113,7 @@
             this.txtBoxH.Name = "txtBoxH";
             this.txtBoxH.ShortcutsEnabled = false;
             this.txtBoxH.Size = new System.Drawing.Size(114, 20);
-            this.txtBoxH.TabIndex = 7;
+            this.txtBoxH.TabIndex = 12;
             this.txtBoxH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBoxH_KeyPress);
             // 
             // txtBoxW
@@ -115,7 +123,7 @@
             this.txtBoxW.Name = "txtBoxW";
             this.txtBoxW.ShortcutsEnabled = false;
             this.txtBoxW.Size = new System.Drawing.Size(114, 20);
-            this.txtBoxW.TabIndex = 6;
+            this.txtBoxW.TabIndex = 11;
             this.txtBoxW.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBoxW_KeyPress);
             // 
             // label5
@@ -126,7 +134,7 @@
             this.label5.Location = new System.Drawing.Point(98, 11);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(224, 18);
-            this.label5.TabIndex = 13;
+            this.label5.TabIndex = 0;
             this.label5.Text = "Crop from the top left corner";
             // 
             // txtBoxVideoFilename
@@ -135,7 +143,8 @@
             this.txtBoxVideoFilename.Name = "txtBoxVideoFilename";
             this.txtBoxVideoFilename.ReadOnly = true;
             this.txtBoxVideoFilename.Size = new System.Drawing.Size(310, 20);
-            this.txtBoxVideoFilename.TabIndex = 23;
+            this.txtBoxVideoFilename.TabIndex = 0;
+            this.txtBoxVideoFilename.TabStop = false;
             this.txtBoxVideoFilename.Text = "Chose your video file ...";
             // 
             // BtnLoadVideo
@@ -145,7 +154,8 @@
             this.BtnLoadVideo.Location = new System.Drawing.Point(331, 40);
             this.BtnLoadVideo.Name = "BtnLoadVideo";
             this.BtnLoadVideo.Size = new System.Drawing.Size(75, 22);
-            this.BtnLoadVideo.TabIndex = 22;
+            this.BtnLoadVideo.TabIndex = 0;
+            this.BtnLoadVideo.TabStop = false;
             this.BtnLoadVideo.Text = "...";
             this.BtnLoadVideo.UseVisualStyleBackColor = true;
             this.BtnLoadVideo.Click += new System.EventHandler(this.BtnLoadVideo_Click);
@@ -161,33 +171,83 @@
             this.btnStartCrop.Location = new System.Drawing.Point(331, 71);
             this.btnStartCrop.Name = "btnStartCrop";
             this.btnStartCrop.Size = new System.Drawing.Size(75, 49);
-            this.btnStartCrop.TabIndex = 24;
+            this.btnStartCrop.TabIndex = 13;
             this.btnStartCrop.Text = "Start";
             this.btnStartCrop.UseVisualStyleBackColor = false;
             this.btnStartCrop.Click += new System.EventHandler(this.btnStartCrop_Click);
+            // 
+            // pictureDrag2
+            // 
+            this.pictureDrag2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureDrag2.Image = ((System.Drawing.Image)(resources.GetObject("pictureDrag2.Image")));
+            this.pictureDrag2.Location = new System.Drawing.Point(0, 33);
+            this.pictureDrag2.Name = "pictureDrag2";
+            this.pictureDrag2.Size = new System.Drawing.Size(420, 89);
+            this.pictureDrag2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureDrag2.TabIndex = 25;
+            this.pictureDrag2.TabStop = false;
+            this.pictureDrag2.Visible = false;
+            // 
+            // panelLoading
+            // 
+            this.panelLoading.Controls.Add(this.labelWait2);
+            this.panelLoading.Controls.Add(this.pictureLoading);
+            this.panelLoading.Location = new System.Drawing.Point(0, 29);
+            this.panelLoading.Name = "panelLoading";
+            this.panelLoading.Size = new System.Drawing.Size(420, 95);
+            this.panelLoading.TabIndex = 0;
+            this.panelLoading.Visible = false;
+            // 
+            // labelWait2
+            // 
+            this.labelWait2.AutoSize = true;
+            this.labelWait2.BackColor = System.Drawing.Color.Transparent;
+            this.labelWait2.ForeColor = System.Drawing.Color.DimGray;
+            this.labelWait2.Location = new System.Drawing.Point(156, 75);
+            this.labelWait2.Name = "labelWait2";
+            this.labelWait2.Size = new System.Drawing.Size(113, 13);
+            this.labelWait2.TabIndex = 22;
+            this.labelWait2.Text = "Loading please wait ...";
+            // 
+            // pictureLoading
+            // 
+            this.pictureLoading.Image = ((System.Drawing.Image)(resources.GetObject("pictureLoading.Image")));
+            this.pictureLoading.Location = new System.Drawing.Point(98, 7);
+            this.pictureLoading.Name = "pictureLoading";
+            this.pictureLoading.Size = new System.Drawing.Size(225, 65);
+            this.pictureLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureLoading.TabIndex = 21;
+            this.pictureLoading.TabStop = false;
             // 
             // Crop
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnStartCrop);
-            this.Controls.Add(this.txtBoxVideoFilename);
-            this.Controls.Add(this.BtnLoadVideo);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtBoxH);
-            this.Controls.Add(this.txtBoxW);
+            this.Controls.Add(this.panelLoading);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtBoxVideoFilename);
             this.Controls.Add(this.txtBoxY);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtBoxX);
+            this.Controls.Add(this.txtBoxH);
+            this.Controls.Add(this.txtBoxW);
+            this.Controls.Add(this.btnStartCrop);
+            this.Controls.Add(this.BtnLoadVideo);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.pictureDrag2);
             this.Name = "Crop";
             this.Size = new System.Drawing.Size(420, 124);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Crop_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Crop_DragEnter);
+            this.DragLeave += new System.EventHandler(this.Crop_DragLeave);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Crop_MouseMove);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureDrag2)).EndInit();
+            this.panelLoading.ResumeLayout(false);
+            this.panelLoading.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureLoading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -207,5 +267,9 @@
         private System.Windows.Forms.TextBox txtBoxVideoFilename;
         private System.Windows.Forms.Button BtnLoadVideo;
         private System.Windows.Forms.Button btnStartCrop;
+        private System.Windows.Forms.PictureBox pictureDrag2;
+        private System.Windows.Forms.Panel panelLoading;
+        private System.Windows.Forms.Label labelWait2;
+        private System.Windows.Forms.PictureBox pictureLoading;
     }
 }

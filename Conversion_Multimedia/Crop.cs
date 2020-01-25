@@ -81,7 +81,9 @@ namespace Conversion_Multimedia
                     using (Process process = new Process())
                     {
                         // change the cursor and disable button start
-                        this.Cursor = Cursors.WaitCursor;
+                        Cursor = Cursors.WaitCursor;
+                        panelLoading.Visible = true;
+
                         BtnLoadVideo.Enabled = false;
                         btnStartCrop.Enabled = false;
 
@@ -147,9 +149,12 @@ namespace Conversion_Multimedia
         private void Crop_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
+            pictureDrag2.BringToFront();
+            pictureDrag2.Visible = true;
         }
         private void Crop_DragDrop(object sender, DragEventArgs e)
         {
+            pictureDrag2.Visible = false;
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             FileInfo finfo = new FileInfo(files[0]);
             string fileExtension = finfo.Extension;
@@ -171,6 +176,11 @@ namespace Conversion_Multimedia
                     break;
             }
         }
+        private void Crop_DragLeave(object sender, EventArgs e)
+        {
+            pictureDrag2.Visible = false;
+        }
+
         // Handle Event Mouse Move
         private void Crop_MouseMove(object sender, MouseEventArgs e)
         {
@@ -181,7 +191,7 @@ namespace Conversion_Multimedia
         // Methode Change to default
         private void ChangeToDefault()
         {
-            this.Cursor = DefaultCursor;
+            Cursor = DefaultCursor;
             txtBoxVideoFilename.Text = "Chose your video file ...";
             // Enable Button Load
             BtnLoadVideo.Enabled = true;
@@ -200,6 +210,7 @@ namespace Conversion_Multimedia
             // Clear FileName of Open file dialog
             ofd.FileName = "";
             ifChanged = false;
+            panelLoading.Visible = false;
         }
     }
 }
