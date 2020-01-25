@@ -158,22 +158,16 @@ namespace Conversion_Multimedia
         {
             if (RdBtnAddSub.Checked)
                 OptionsChecked = "Add Subtitles";
-            else
-                OptionsChecked = "";
         }
         private void RdBtnResize_CheckedChanged(object sender, EventArgs e)
         {
             if (RdBtnResize.Checked)
                 OptionsChecked = "Resize";
-            else
-                OptionsChecked = "";
         }
         private void RdBtnCrop_CheckedChanged(object sender, EventArgs e)
         {
             if (RdBtnCrop.Checked)
                 OptionsChecked = "Crop";
-            else
-                OptionsChecked = "";
         }
         // -- End -- Handle event Checked Changed for Radio Button
     }

@@ -114,7 +114,7 @@ namespace Conversion_Multimedia
                     VisibleButton();
                     break;
                 default:
-                    MessageBox.Show("Nothing ! \nPlease check your option ...");
+                    MessageBox.Show("\t Nothing ! \nPlease check your option ...");
                     return;
             }
         }
