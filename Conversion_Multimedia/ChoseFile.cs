@@ -172,9 +172,13 @@ namespace Conversion_Multimedia
         private void ChoseFile_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
+            rtxtboxCmd.BackColor = Color.FromArgb(253,249,240);
+            pictureDrag3.Visible = true;
         }
         private void ChoseFile_DragDrop(object sender, DragEventArgs e)
         {
+            rtxtboxCmd.BackColor = Color.DarkSlateGray;
+            pictureDrag3.Visible = false;
             LookingFor_yourType();
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             FileInfo finfo = new FileInfo(files[0]);
@@ -189,6 +193,11 @@ namespace Conversion_Multimedia
                         TypesOutput = ".png";
                 }
             }
+        }
+        private void ChoseFile_DragLeave(object sender, EventArgs e)
+        {
+            rtxtboxCmd.BackColor = Color.DarkSlateGray;
+            pictureDrag3.Visible = false;
         }
         // Handle Event Mouse Move
         private void ChoseFile_MouseMove(object sender, MouseEventArgs e)
@@ -208,8 +217,9 @@ namespace Conversion_Multimedia
                 using (Process process = new Process())
                 {
                     // change the cursor and disable button start
-                    this.Cursor = Cursors.WaitCursor;
+                    Cursor = Cursors.WaitCursor;
                     BtnStart.Enabled = false;
+                    panelLoading.Visible = true;
 
                     process.StartInfo.UseShellExecute = false;
                     // run the cmd process
@@ -301,12 +311,13 @@ namespace Conversion_Multimedia
         // Methode Change to default
         private void ChangeToDefault()
         {
-            this.Cursor = DefaultCursor;
+            Cursor = DefaultCursor;
             BtnStart.Enabled = false;
             txtboxFileName.Text = "Chose your file ...";
             labelFilename.Text = "...";
             ofd.FileName = "";
             ifChanged = false;
+            panelLoading.Visible = false;
         }
 
         // Méthode .AVI
