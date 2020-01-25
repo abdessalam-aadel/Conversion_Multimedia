@@ -54,9 +54,10 @@ namespace Conversion_Multimedia
                     using (Process process = new Process())
                     {
                         // change the cursor and disable button start
-                        this.Cursor = Cursors.WaitCursor;
+                        Cursor = Cursors.WaitCursor;
                         BtnLoadVideo.Enabled = false;
                         BtnStartResize.Enabled = false;
+                        panelLoading.Visible = true;
 
                         process.StartInfo.UseShellExecute = false;
                         // run the cmd process
@@ -130,13 +131,17 @@ namespace Conversion_Multimedia
         // Start -- Handle event KeyPress ...
         private void txtBoxW_KeyPress(object sender, KeyPressEventArgs e) => Not_KeyString(e);
         private void txtBoxH_KeyPress(object sender, KeyPressEventArgs e) => Not_KeyString(e);
+        // End -- Event KeyPress ...
         // Activate Drag and Drop in Resize ...
         private void Resize_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
+            pictureDrag4.BringToFront();
+            pictureDrag4.Visible = true;
         }
         private void Resize_DragDrop(object sender, DragEventArgs e)
         {
+            pictureDrag4.Visible = false;
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             FileInfo finfo = new FileInfo(files[0]);
             string fileExtension = finfo.Extension;
@@ -159,19 +164,22 @@ namespace Conversion_Multimedia
                     txtBoxH.Enabled = true;
                     break;
             }
-        }// End -- Event KeyPress ...
-
+        }
+        private void Resize_DragLeave(object sender, EventArgs e)
+        {
+            pictureDrag4.Visible = false;
+        }
         // Handle Event Mouse Move
         private void Resize_MouseMove(object sender, MouseEventArgs e)
         {
             if (ifChanged)
                 ChangeToDefault();
         }
-        
+
         // Methode Change to default
         private void ChangeToDefault()
         {
-            this.Cursor = DefaultCursor;
+            Cursor = DefaultCursor;
             txtBoxVideoFilename.Text = "Chose your video file ...";
             BtnLoadVideo.Enabled = true;
             BtnStartResize.Enabled = false;
@@ -181,6 +189,7 @@ namespace Conversion_Multimedia
             txtBoxW.Enabled = false;
             txtBoxH.Enabled = false;
             ifChanged = false;
+            panelLoading.Visible = false;
         }
     }
 }
