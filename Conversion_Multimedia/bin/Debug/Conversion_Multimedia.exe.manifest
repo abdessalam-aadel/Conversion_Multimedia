@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Conversion_Multimedia.exe" size="2733504">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Conversion_Multimedia.exe" size="2732480">
       <assemblyIdentity name="Conversion_Multimedia" version="2.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>VX1tLaReVWz8GC2n1xzSrYQ2GQs=</dsig:DigestValue>
+        <dsig:DigestValue>86aFrxwY+ATRFIRSgvkOBMndnGY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
