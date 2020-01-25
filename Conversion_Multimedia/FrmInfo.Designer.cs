@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmInfo));
             this.rtxtBox = new System.Windows.Forms.RichTextBox();
             this.BtnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -39,6 +40,7 @@
             this.rtxtBox.Name = "rtxtBox";
             this.rtxtBox.Size = new System.Drawing.Size(461, 286);
             this.rtxtBox.TabIndex = 0;
+            this.rtxtBox.TabStop = false;
             this.rtxtBox.Text = "";
             // 
             // BtnExit
@@ -46,12 +48,15 @@
             this.BtnExit.BackColor = System.Drawing.Color.OrangeRed;
             this.BtnExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnExit.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.BtnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.OrangeRed;
+            this.BtnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Coral;
             this.BtnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnExit.ForeColor = System.Drawing.Color.White;
             this.BtnExit.Location = new System.Drawing.Point(147, 307);
             this.BtnExit.Name = "BtnExit";
             this.BtnExit.Size = new System.Drawing.Size(191, 23);
-            this.BtnExit.TabIndex = 1;
+            this.BtnExit.TabIndex = 0;
+            this.BtnExit.TabStop = false;
             this.BtnExit.Text = "Exit";
             this.BtnExit.UseVisualStyleBackColor = false;
             this.BtnExit.Click += new System.EventHandler(this.BtnExit_Click);
@@ -64,6 +69,7 @@
             this.Controls.Add(this.BtnExit);
             this.Controls.Add(this.rtxtBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Get Information for your video file";
