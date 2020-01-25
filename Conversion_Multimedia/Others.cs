@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
+using System.Drawing;
 
 namespace Conversion_Multimedia
 {
@@ -30,7 +32,7 @@ namespace Conversion_Multimedia
                 DialogResult result = ofd.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    this.Cursor = Cursors.WaitCursor;
+                    Cursor = Cursors.WaitCursor;
                     string inputFileName = ofd.FileName;
 
                     // Start Condition : if you have win32 or win64
@@ -40,10 +42,7 @@ namespace Conversion_Multimedia
                     else
                         ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
 
-                    Process p = this.process1;
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.RedirectStandardOutput = true;
-                    p.StartInfo.CreateNoWindow = true;
+                    Process p = process1;
                     p.StartInfo.FileName = ffmpeg;
                     p.StartInfo.Arguments = " -i " + "\"" + inputFileName + "\"";
                     //p.StartInfo.Arguments = " -h"; // for testing ...
@@ -51,7 +50,7 @@ namespace Conversion_Multimedia
                     p.BeginOutputReadLine();
                     p.BeginErrorReadLine();
                     //Thread.Sleep(10000); // wait for the process to exit ...
-                    MessageBox.Show("Waiting for the process to exit....");
+                    MessageBox.Show("Waiting 5 seconde for the process to exit....\n\t   And click OK");
                     p.WaitForExit();
                     if (p.HasExited)
                     {
@@ -74,66 +73,108 @@ namespace Conversion_Multimedia
             }
         }
 
-        // Change to default
-        public void ChangeToDefault()
-        {
-            this.Cursor = DefaultCursor;
-            ofd.FileName = "";
-            rtxtBoxInfo.Clear();
-        }
-
         private void process1_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             rtxtBoxInfo.Text += e.Data + "\n";
             rtxtBoxInfo.Update();
         }
 
-        // -- Start -- Handle event Checked Changed for checkbox
-        private void CheckBoxCrop_CheckedChanged(object sender, EventArgs e)
+        // Activate Drag & Drop in Others.cs
+        private void Others_DragEnter(object sender, DragEventArgs e)
         {
-            if (CheckBoxCrop.Checked)
+            e.Effect = DragDropEffects.Copy;
+            pictureDrag1.Visible = true;
+            BtnGetInfo.BackColor = Color.OrangeRed;
+        }
+
+        private void Others_DragLeave(object sender, EventArgs e)
+        {
+            pictureDrag1.Visible = false;
+            BtnGetInfo.BackColor = SystemColors.Control;
+        }
+
+        private void Others_DragDrop(object sender, DragEventArgs e)
+        {
+            BtnGetInfo.BackColor = SystemColors.Control;
+            pictureDrag1.Visible = false;
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            FileInfo finfo = new FileInfo(files[0]);
+            string fileExtension = finfo.Extension;
+            switch (fileExtension)
             {
-                OptionsChecked = "Crop";
-                CheckBoxResize.Enabled = false;
-                CheckBoxSubtitles.Enabled = false;
-            }
-            else
-            {
-                OptionsChecked = "";
-                CheckBoxResize.Enabled = true;
-                CheckBoxSubtitles.Enabled = true;
+                case ".mp4":
+                case ".mov":
+                case ".m4a":
+                case ".3gp":
+                case ".3g2":
+                case ".mj2":
+                    Cursor = Cursors.WaitCursor;
+                    string inputFileName = finfo.FullName;
+
+                    // Start Condition : if you have win32 or win64
+                    string ffmpeg;
+                    if (Environment.Is64BitOperatingSystem)
+                        ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
+                    else
+                        ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
+
+                    Process p = process1;
+                    p.StartInfo.FileName = ffmpeg;
+                    p.StartInfo.Arguments = " -i " + "\"" + inputFileName + "\"";
+                    //p.StartInfo.Arguments = " -h"; // for testing ...
+                    p.Start();
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    //Thread.Sleep(10000); // wait for the process to exit ...
+                    MessageBox.Show("Waiting 5 seconde for the process to exit....\n\t   And click OK");
+                    p.WaitForExit();
+                    if (p.HasExited)
+                    {
+                        p.CancelErrorRead();
+                        p.CancelOutputRead();
+                        p.Close();
+                    }
+                    
+                    else
+                        return;
+                    FrmInfo frmInfo = new FrmInfo();
+                    frmInfo.GetValue(rtxtBoxInfo.Text);
+                    frmInfo.ShowDialog();
+                    ChangeToDefault();
+                    break;
             }
         }
-        private void CheckBoxResize_CheckedChanged(object sender, EventArgs e)
+
+        // Change to default
+        public void ChangeToDefault()
         {
-            if (CheckBoxResize.Checked)
-            {
-                OptionsChecked = "Resize";
-                CheckBoxCrop.Enabled = false;
-                CheckBoxSubtitles.Enabled = false;
-            }
-            else
-            {
-                OptionsChecked = "";
-                CheckBoxCrop.Enabled = true;
-                CheckBoxSubtitles.Enabled = true;
-            }
+            Cursor = DefaultCursor;
+            ofd.FileName = "";
+            rtxtBoxInfo.Clear();
         }
-        private void CheckBoxSubtitles_CheckedChanged(object sender, EventArgs e)
+
+        // -- Start -- Handle event Checked Changed for Radio Button
+        private void RdBtnAddSub_CheckedChanged(object sender, EventArgs e)
         {
-            if (CheckBoxSubtitles.Checked)
-            {
+            if (RdBtnAddSub.Checked)
                 OptionsChecked = "Add Subtitles";
-                CheckBoxCrop.Enabled = false;
-                CheckBoxResize.Enabled = false;
-            }
             else
-            {
                 OptionsChecked = "";
-                CheckBoxCrop.Enabled = true;
-                CheckBoxResize.Enabled = true;
-            }
         }
-        // -- End -- Handle event Checked Changed for checkbox
+        private void RdBtnResize_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RdBtnResize.Checked)
+                OptionsChecked = "Resize";
+            else
+                OptionsChecked = "";
+        }
+        private void RdBtnCrop_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RdBtnCrop.Checked)
+                OptionsChecked = "Crop";
+            else
+                OptionsChecked = "";
+        }
+        // -- End -- Handle event Checked Changed for Radio Button
     }
 }
