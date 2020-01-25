@@ -9,7 +9,6 @@ C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debu
 C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.StartConversion.resources
 C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.ChoseFile.resources
 C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.Others.resources
-C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.csprojAssemblyReference.cache
 C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.FrmInfo.resources
 C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.AddSubtitles.resources
 C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.Crop.resources
@@ -18,3 +17,4 @@ C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\bin\Debu
 C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\bin\Debug\Conversion_Multimedia.application
 C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.exe.manifest
 C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.application
+C:\Users\abdes\source\repos\Conversion_Multimedia\Conversion_Multimedia\obj\Debug\Conversion_Multimedia.csprojAssemblyReference.cache

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelChose = new System.Windows.Forms.Label();
             this.ComboBoxTypes = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.labelStart = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -41,16 +41,16 @@
             this.panel8 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // label1
+            // labelChose
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(141, 58);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 16);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Chose your methode :";
+            this.labelChose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelChose.AutoSize = true;
+            this.labelChose.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelChose.Location = new System.Drawing.Point(141, 58);
+            this.labelChose.Name = "labelChose";
+            this.labelChose.Size = new System.Drawing.Size(138, 16);
+            this.labelChose.TabIndex = 0;
+            this.labelChose.Text = "Chose your methode :";
             // 
             // ComboBoxTypes
             // 
@@ -60,18 +60,19 @@
             this.ComboBoxTypes.MaxDropDownItems = 10;
             this.ComboBoxTypes.Name = "ComboBoxTypes";
             this.ComboBoxTypes.Size = new System.Drawing.Size(188, 21);
-            this.ComboBoxTypes.TabIndex = 7;
+            this.ComboBoxTypes.TabIndex = 0;
+            this.ComboBoxTypes.TabStop = false;
             // 
-            // label11
+            // labelStart
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.OrangeRed;
-            this.label11.Location = new System.Drawing.Point(130, 26);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(161, 20);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "Start your Conversion";
+            this.labelStart.AutoSize = true;
+            this.labelStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStart.ForeColor = System.Drawing.Color.OrangeRed;
+            this.labelStart.Location = new System.Drawing.Point(119, 26);
+            this.labelStart.Name = "labelStart";
+            this.labelStart.Size = new System.Drawing.Size(182, 20);
+            this.labelStart.TabIndex = 8;
+            this.labelStart.Text = "Start your Conversion";
             // 
             // panel1
             // 
@@ -149,9 +150,9 @@
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label11);
+            this.Controls.Add(this.labelStart);
             this.Controls.Add(this.ComboBoxTypes);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelChose);
             this.Name = "StartConversion";
             this.Size = new System.Drawing.Size(420, 124);
             this.Load += new System.EventHandler(this.StartConversion_Load);
@@ -161,9 +162,9 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelChose;
         private System.Windows.Forms.ComboBox ComboBoxTypes;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label labelStart;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
