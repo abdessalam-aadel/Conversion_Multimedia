@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Others));
             this.BtnGetInfo = new System.Windows.Forms.Button();
             this.process1 = new System.Diagnostics.Process();
-            this.rtxtBoxInfo = new System.Windows.Forms.RichTextBox();
             this.labelChoseOptions = new System.Windows.Forms.Label();
             this.pictureDrag1 = new System.Windows.Forms.PictureBox();
             this.RdBtnCrop = new System.Windows.Forms.RadioButton();
@@ -70,16 +69,6 @@
             this.process1.StartInfo.UserName = "";
             this.process1.StartInfo.UseShellExecute = false;
             this.process1.SynchronizingObject = this;
-            this.process1.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler(this.process1_ErrorDataReceived);
-            // 
-            // rtxtBoxInfo
-            // 
-            this.rtxtBoxInfo.Location = new System.Drawing.Point(3, 3);
-            this.rtxtBoxInfo.Name = "rtxtBoxInfo";
-            this.rtxtBoxInfo.Size = new System.Drawing.Size(116, 26);
-            this.rtxtBoxInfo.TabIndex = 4;
-            this.rtxtBoxInfo.Text = "";
-            this.rtxtBoxInfo.Visible = false;
             // 
             // labelChoseOptions
             // 
@@ -95,9 +84,9 @@
             // pictureDrag1
             // 
             this.pictureDrag1.Image = ((System.Drawing.Image)(resources.GetObject("pictureDrag1.Image")));
-            this.pictureDrag1.Location = new System.Drawing.Point(-17, 3);
+            this.pictureDrag1.Location = new System.Drawing.Point(-17, 0);
             this.pictureDrag1.Name = "pictureDrag1";
-            this.pictureDrag1.Size = new System.Drawing.Size(145, 121);
+            this.pictureDrag1.Size = new System.Drawing.Size(145, 124);
             this.pictureDrag1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureDrag1.TabIndex = 10;
             this.pictureDrag1.TabStop = false;
@@ -147,7 +136,6 @@
             this.Controls.Add(this.labelChoseOptions);
             this.Controls.Add(this.BtnGetInfo);
             this.Controls.Add(this.pictureDrag1);
-            this.Controls.Add(this.rtxtBoxInfo);
             this.Name = "Others";
             this.Size = new System.Drawing.Size(420, 124);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Others_DragDrop);
@@ -163,7 +151,6 @@
 
         private System.Windows.Forms.Button BtnGetInfo;
         private System.Diagnostics.Process process1;
-        private System.Windows.Forms.RichTextBox rtxtBoxInfo;
         private System.Windows.Forms.Label labelChoseOptions;
         private System.Windows.Forms.PictureBox pictureDrag1;
         private System.Windows.Forms.RadioButton RdBtnAddSub;

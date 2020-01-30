@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace Conversion_Multimedia
 {
@@ -10,6 +12,7 @@ namespace Conversion_Multimedia
         public Resize() => InitializeComponent();
         public string videoName, videoType;
         public bool ifChanged;
+        public int width = 0, height = 0;
 
         public bool SetChanged
         {
@@ -34,12 +37,18 @@ namespace Conversion_Multimedia
                 txtBoxVideoFilename.Text = ofd.FileName;
                 videoName = Path.GetFileNameWithoutExtension(ofd.SafeFileName); // Get File name without extension
                 videoType = Path.GetExtension(ofd.SafeFileName); // Get File Extension
-                BtnStartResize.Enabled = true;
-                txtBoxW.Enabled = true;
-                txtBoxH.Enabled = true;
+                EnableTxtAndBtn(true);
+                SearchWH(ofd.FileName);
             }
             else
                 return;
+        }
+
+        private void EnableTxtAndBtn(bool _enable)
+        {
+            BtnStartResize.Enabled = _enable;
+            txtBoxW.Enabled = _enable;
+            txtBoxH.Enabled = _enable;
         }
 
         // Handle event click of Button Resize ...
@@ -50,60 +59,22 @@ namespace Conversion_Multimedia
             {
                 try
                 {
-                    // uses an instance of the Process class to start a process
-                    using (Process process = new Process())
-                    {
-                        // change the cursor and disable button start
-                        Cursor = Cursors.WaitCursor;
-                        BtnLoadVideo.Enabled = false;
-                        BtnStartResize.Enabled = false;
-                        panelLoading.Visible = true;
+                    // change the cursor and disable button start
+                    Cursor = Cursors.WaitCursor;
+                    panelLoading.BringToFront();
+                    panelLoading.Visible = true;
 
-                        process.StartInfo.UseShellExecute = false;
-                        // run the cmd process
-                        process.StartInfo.FileName = "cmd.exe";
-                        // Given that is started without a window
-                        process.StartInfo.CreateNoWindow = true;
-
-                        // uses the redirected input-output
-                        process.StartInfo.RedirectStandardInput = true;
-                        process.StartInfo.RedirectStandardOutput = true;
-
-                        // Start process
-                        process.Start();
-
-                        // Declare variable input and output of FFmpeg tools
-                        string inputVideo = txtBoxVideoFilename.Text;
-                        string output = " output_" + videoName.Replace(" ", "_") 
-                                        + "_" + txtBoxW.Text + "x" + txtBoxH.Text
-                                        + videoType;
-                        string ffmpeg;
-
-                        // Start Condition : if you have win32 or win64
-                        if (Environment.Is64BitOperatingSystem)
-                            ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-                        else
-                            ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-
-                        // Start Command line ...
-                        process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + inputVideo + "\""
-                            + " -vf scale=" + txtBoxW.Text + ":" + txtBoxH.Text
-                            + output);
-
-                        // Flush & Close StandarInput
-                        process.StandardInput.Flush();
-                        process.StandardInput.Close();
-
-                        // Wait for Exit
-                        process.WaitForExit();
-
-                        // Close The Process
-                        process.Close();
-                        ChangeToDefault();
-                        MessageBox.Show("Your video have been resized successfully", "Success",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
-                    }
+                    string inputVideo = txtBoxVideoFilename.Text;
+                    string output = " output_" + videoName.Replace(" ", "_")
+                                    + "_" + txtBoxW.Text + "x" + txtBoxH.Text
+                                    + videoType;
+                    RunProcess("-y -i " + "\"" + inputVideo + "\""
+                                + " -vf scale=" + txtBoxW.Text + ":" + txtBoxH.Text
+                                + output, true);
+                    ChangeToDefault();
+                    MessageBox.Show("Your video have been resized successfully", "Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -159,9 +130,8 @@ namespace Conversion_Multimedia
                     txtBoxVideoFilename.Text = finfo.FullName;
                     videoName = Path.GetFileNameWithoutExtension(finfo.Name);
                     videoType = finfo.Extension;
-                    BtnStartResize.Enabled = true;
-                    txtBoxW.Enabled = true;
-                    txtBoxH.Enabled = true;
+                    EnableTxtAndBtn(true);
+                    SearchWH(finfo.FullName);
                     break;
             }
         }
@@ -181,15 +151,91 @@ namespace Conversion_Multimedia
         {
             Cursor = DefaultCursor;
             txtBoxVideoFilename.Text = "Chose your video file ...";
-            BtnLoadVideo.Enabled = true;
-            BtnStartResize.Enabled = false;
+            EnableTxtAndBtn(false);
+            // Clear TxtBox & OFD
             txtBoxW.Text = "";
             txtBoxH.Text = "";
             ofd.FileName = "";
-            txtBoxW.Enabled = false;
-            txtBoxH.Enabled = false;
             ifChanged = false;
             panelLoading.Visible = false;
+            labelVSize.ForeColor = Color.DimGray;
+            labelVSize.Text = "...x...";
+        }
+
+        // Run Process
+        private string RunProcess(string Argument, bool _wait)
+        {
+            string ffmpeg;
+            // Start Condition : if you have win32 or win64
+            if (Environment.Is64BitOperatingSystem)
+                ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
+            else
+                ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
+            //create a process info
+            ProcessStartInfo oInfo = new ProcessStartInfo(ffmpeg, Argument)
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            //Create the output and streamreader to get the output
+            string output = null; StreamReader srOutput = null;
+            //try the process
+            try
+            {
+                //run the process
+                Process p = Process.Start(oInfo);
+                if (_wait)
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    p.WaitForExit();
+                }
+                //get the output
+                srOutput = p.StandardError;
+                //put it in a string
+                output = srOutput.ReadToEnd();
+                p.Close();
+            }
+            catch (Exception)
+            {
+                output = string.Empty;
+            }
+            finally
+            {
+                //if we succeded, Dispose the streamreader
+                srOutput?.Dispose();
+            }
+            return output;
+        }
+
+        // Handel procedure Search width and height
+        private void SearchWH(string path)
+        {
+           // use regular expression to search the width & height for video file
+            string pattern = @"(\d{2,3})x(\d{2,3})"; // pattern of width & height
+            // Run the process and return the information of video...
+            string output = RunProcess(" -i " + "\"" + path + "\"", false);
+            
+            // Find matches
+            Match m = Regex.Match(output, pattern);
+            if (m.Success)
+            {
+                // separate with and height
+                int.TryParse(m.Groups[1].Value, out width);
+                int.TryParse(m.Groups[2].Value, out height);
+                // Change Forecolor and write the value of: W & H
+                labelVSize.ForeColor = Color.DimGray;
+                labelVSize.Text = width + "x" + height;
+            }
+            else
+            {
+                width = 0;
+                height = 0;
+                labelVSize.ForeColor = Color.Red;
+                labelVSize.Text = "Not Found !";
+            }
         }
     }
 }

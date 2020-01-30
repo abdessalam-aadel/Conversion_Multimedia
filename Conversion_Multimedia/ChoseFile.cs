@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.IO;
 using System.Collections.Generic;
 
@@ -213,90 +214,43 @@ namespace Conversion_Multimedia
         {
             try
             {
-                // uses an instance of the Process class to start a process
-                using (Process process = new Process())
+                // change the cursor and disable button start
+                Cursor = Cursors.WaitCursor;
+                panelLoading.Visible = true;
+                // Declare variable input and output of FFmpeg tools
+                string input = txtboxFileName.Text;
+                string output = "output_"
+                                + labelFilename.Text.Replace(" ", "_").Replace(".", "-")
+                                + ImagesOutput
+                                + TypesOutput;
+                // FFmpeg : override output file if exists with -y
+                string resultCmd = RunProcess("-y -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output, false);
+                Thread.Sleep(500);
+                RunProcess("-y -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output,true);
+                ImagesOutput = "";
+
+                #region Color Location
+                string pattern = @"(?<=from\s').*(?=':)";
+                Match match = Regex.Match(resultCmd, pattern);
+                if (match.Success)
                 {
-                    // change the cursor and disable button start
-                    Cursor = Cursors.WaitCursor;
-                    BtnStart.Enabled = false;
-                    panelLoading.Visible = true;
+                    string txtToSearch = match.Value;
 
-                    process.StartInfo.UseShellExecute = false;
-                    // run the cmd process
-                    process.StartInfo.FileName = "cmd.exe";
-                    // Given that is started without a window
-                    process.StartInfo.CreateNoWindow = true;
-
-                    // uses the redirected input-output
-                    process.StartInfo.RedirectStandardInput = true;
-                    process.StartInfo.RedirectStandardOutput = true;
-
-                    // Start process
-                    process.Start();
-
-                    // Declare variable input and output of FFmpeg tools
-                    string input = txtboxFileName.Text; 
-
-                    string output = "output_" 
-                                    + labelFilename.Text.Replace(" ","_").Replace(".","-") 
-                                    + ImagesOutput 
-                                    + TypesOutput;
-                    string ffmpeg;
-
-                    // Start Condition : if you have win32 or win64
-                    if (Environment.Is64BitOperatingSystem)
-                        ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-                    else
-                        ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-
-                    // Start Command line ...
-                    // Fix issue : ffmpeg not working with filenames that have whitespace
-                    // Add double quotes to input filenames
-                    process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output);
-                    // Restart value of ImagesOutput
-                    ImagesOutput = "";
-                    // Flush & Close StandarInput
-                    process.StandardInput.Flush();
-                    process.StandardInput.Close();
-
-                    // Wait for Exit
-                    process.WaitForExit();
-
-                    // Return the result of cmd
-                    string resultCmd = process.StandardOutput.ReadToEnd();
-
-                    #region Replace Location and Colored
-                    string pattern = @"\w:(\\.+)*>";;
-                    Match match = Regex.Match(resultCmd, pattern);
-                    if (match.Success)
+                    int start = 0;
+                    int end = rtxtboxCmd.Text.LastIndexOf(txtToSearch);
+                    while (start < end)
                     {
-                        string oldvalueS = match.Value;
-                        rtxtboxCmd.Text = resultCmd.Replace(oldvalueS, "kilya@Desktop $ ");
-
-                        // Selection color kilya@Desktop $ 
-                        string txtToSearch = "kilya@Desktop $ ";
-
-                        int start = 0;
-                        int end = rtxtboxCmd.Text.LastIndexOf(txtToSearch);
-                        while (start < end)
-                        {
-                            rtxtboxCmd.Find(txtToSearch, start, rtxtboxCmd.TextLength, RichTextBoxFinds.MatchCase);
-                            // Set the highlight color as DarkOrange
-                            rtxtboxCmd.SelectionColor = Color.DarkOrange;
-                            start = rtxtboxCmd.Text.IndexOf(txtToSearch,start)+1;
-                        }
+                        rtxtboxCmd.Find(txtToSearch, start, rtxtboxCmd.TextLength, RichTextBoxFinds.MatchCase);
+                        // Set the highlight color as DarkOrange
+                        rtxtboxCmd.SelectionColor = Color.DarkOrange;
+                        start = rtxtboxCmd.Text.IndexOf(txtToSearch, start) + 1;
                     }
-                    else
-                        rtxtboxCmd.Text = "Nothing to show !!";
-                    #endregion
-
-                    // Close The Process
-                    process.Close();
-                    ChangeToDefault();
-                    MessageBox.Show("Your conversion is completed successfully", "Success",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
                 }
+                #endregion
+                ChangeToDefault();
+                MessageBox.Show("Your conversion is completed successfully", "Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -306,6 +260,58 @@ namespace Conversion_Multimedia
                             MessageBoxIcon.Error);
                 ChangeToDefault();
             }
+        }
+
+        // Run Process
+        private string RunProcess(string Argument, bool _wait)
+        {
+            string ffmpeg;
+            // Start Condition : if you have win32 or win64
+            if (Environment.Is64BitOperatingSystem)
+                ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
+            else
+                ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
+            //create a process info
+            ProcessStartInfo oInfo = new ProcessStartInfo(ffmpeg, Argument)
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            //Create the output and streamreader to get the output
+            string _output = null; StreamReader srOutput = null;
+            //try the process
+            try
+            {
+                //run the process
+                Process p = Process.Start(oInfo);
+                if (_wait)
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    p.WaitForExit();
+                }
+                else
+                {
+                    //get the output
+                    srOutput = p.StandardError;
+                    //put it in a string
+                    _output = srOutput.ReadToEnd();
+                    rtxtboxCmd.Text = _output;
+                }
+                p.Close();
+            }
+            catch (Exception)
+            {
+                _output = string.Empty;
+            }
+            finally
+            {
+                //if we succeded, Dispose the streamreader
+                srOutput?.Dispose();
+            }
+            return _output;
         }
 
         // Methode Change to default

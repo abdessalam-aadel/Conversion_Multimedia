@@ -31,52 +31,15 @@ namespace Conversion_Multimedia
                 ofd.Filter = "Videos Files (*.mp4, *.avi, *.flv, *.wav, *.mpg, *.mpeg, *.mkv) | *.mp4; *.avi; *.flv; *.wav; *.mpg; *.mpeg; *.mkv";
                 DialogResult result = ofd.ShowDialog();
                 if (result == DialogResult.OK)
-                {
-                    Cursor = Cursors.WaitCursor;
-                    string inputFileName = ofd.FileName;
-
-                    // Start Condition : if you have win32 or win64
-                    string ffmpeg;
-                    if (Environment.Is64BitOperatingSystem)
-                        ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-                    else
-                        ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-
-                    Process p = process1;
-                    p.StartInfo.FileName = ffmpeg;
-                    p.StartInfo.Arguments = " -i " + "\"" + inputFileName + "\"";
-                    //p.StartInfo.Arguments = " -h"; // for testing ...
-                    p.Start();
-                    p.BeginOutputReadLine();
-                    p.BeginErrorReadLine();
-                    //Thread.Sleep(10000); // wait for the process to exit ...
-                    MessageBox.Show("Waiting 5 seconde for the process to exit....\n\t   And click OK");
-                    p.WaitForExit();
-                    if (p.HasExited)
-                    {
-                        p.CancelErrorRead();
-                        p.CancelOutputRead();
-                        p.Close();
-                    }
-                }
+                    RunProcess(" -i " + "\"" + ofd.FileName + "\"");
                 else
                     return;
-                FrmInfo frmInfo = new FrmInfo();
-                frmInfo.GetValue(rtxtBoxInfo.Text);
-                frmInfo.ShowDialog();
-                ChangeToDefault();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 ChangeToDefault();
             }
-        }
-
-        private void process1_ErrorDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            rtxtBoxInfo.Text += e.Data + "\n";
-            rtxtBoxInfo.Update();
         }
 
         // Activate Drag & Drop in Others.cs
@@ -108,49 +71,63 @@ namespace Conversion_Multimedia
                 case ".3gp":
                 case ".3g2":
                 case ".mj2":
-                    Cursor = Cursors.WaitCursor;
-                    string inputFileName = finfo.FullName;
-
-                    // Start Condition : if you have win32 or win64
-                    string ffmpeg;
-                    if (Environment.Is64BitOperatingSystem)
-                        ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-                    else
-                        ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-
-                    Process p = process1;
-                    p.StartInfo.FileName = ffmpeg;
-                    p.StartInfo.Arguments = " -i " + "\"" + inputFileName + "\"";
-                    //p.StartInfo.Arguments = " -h"; // for testing ...
-                    p.Start();
-                    p.BeginOutputReadLine();
-                    p.BeginErrorReadLine();
-                    //Thread.Sleep(10000); // wait for the process to exit ...
-                    MessageBox.Show("Waiting 5 seconde for the process to exit....\n\t   And click OK");
-                    p.WaitForExit();
-                    if (p.HasExited)
-                    {
-                        p.CancelErrorRead();
-                        p.CancelOutputRead();
-                        p.Close();
-                    }
-                    
-                    else
-                        return;
-                    FrmInfo frmInfo = new FrmInfo();
-                    frmInfo.GetValue(rtxtBoxInfo.Text);
-                    frmInfo.ShowDialog();
-                    ChangeToDefault();
+                    RunProcess(" -i " + "\"" + finfo.FullName + "\"");
                     break;
             }
         }
 
+        // Run Process
+        private void RunProcess(string Argument)
+        {
+            string ffmpeg;
+            // Start Condition : if you have win32 or win64
+            if (Environment.Is64BitOperatingSystem)
+                ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
+            else
+                ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
+
+            //create a process info
+            ProcessStartInfo oInfo = new ProcessStartInfo(ffmpeg, Argument)
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            //Create the output and streamreader to get the output
+            string output = null; StreamReader srOutput = null;
+            //try the process
+            try
+            {
+                //run the process
+                Process p = Process.Start(oInfo);
+                p.WaitForExit();
+                //get the output
+                srOutput = p.StandardError;
+                //put it in a string
+                output = srOutput.ReadToEnd();
+                p.Close();
+            }
+            catch (Exception)
+            {
+                output = string.Empty;
+            }
+            finally
+            {
+                //if we succeded, Dispose the streamreader
+                srOutput?.Dispose();
+            }
+            FrmInfo frmInfo = new FrmInfo();
+            frmInfo.GetValue(output);
+            frmInfo.ShowDialog();
+            ChangeToDefault();
+        }
+        
         // Change to default
         public void ChangeToDefault()
         {
             Cursor = DefaultCursor;
             ofd.FileName = "";
-            rtxtBoxInfo.Clear();
         }
 
         // -- Start -- Handle event Checked Changed for Radio Button

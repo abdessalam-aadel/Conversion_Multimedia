@@ -35,7 +35,7 @@ namespace Conversion_Multimedia
                 txtBoxVideoFilename.Text = ofd.FileName;
                 videoName = Path.GetFileNameWithoutExtension(ofd.SafeFileName); // Get File name without extension
                 videoType = Path.GetExtension(ofd.SafeFileName); // Get File Extension
-                EnabledBtnAndTxt();
+                EnabledBtnAndTxt(true);
             }
             else
                 return;
@@ -61,13 +61,13 @@ namespace Conversion_Multimedia
         // End -- Event KeyPress ...
         
         // Methode Enabled button and textbox
-        public void EnabledBtnAndTxt()
+        public void EnabledBtnAndTxt(bool _enable)
         {
-            btnStartCrop.Enabled = true;
-            txtBoxW.Enabled = true;
-            txtBoxH.Enabled = true;
-            txtBoxX.Enabled = true;
-            txtBoxY.Enabled = true;
+            btnStartCrop.Enabled = _enable;
+            txtBoxW.Enabled = _enable;
+            txtBoxH.Enabled = _enable;
+            txtBoxX.Enabled = _enable;
+            txtBoxY.Enabled = _enable;
         }
 
         // Handle event click Button Start Crop ...
@@ -77,63 +77,24 @@ namespace Conversion_Multimedia
             {
                 try
                 {
-                    // uses an instance of the Process class to start a process
-                    using (Process process = new Process())
-                    {
-                        // change the cursor and disable button start
-                        Cursor = Cursors.WaitCursor;
-                        panelLoading.Visible = true;
+                    // change the cursor and disable button start
+                    Cursor = Cursors.WaitCursor;
+                    panelLoading.BringToFront();
+                    panelLoading.Visible = true;
 
-                        BtnLoadVideo.Enabled = false;
-                        btnStartCrop.Enabled = false;
-
-                        process.StartInfo.UseShellExecute = false;
-                        // run the cmd process
-                        process.StartInfo.FileName = "cmd.exe";
-                        // Given that is started without a window
-                        process.StartInfo.CreateNoWindow = true;
-
-                        // uses the redirected input-output
-                        process.StartInfo.RedirectStandardInput = true;
-                        process.StartInfo.RedirectStandardOutput = true;
-
-                        // Start process
-                        process.Start();
-
-                        // Declare variable input and output of FFmpeg tools
-                        string inputVideo = txtBoxVideoFilename.Text;
-
-                        string output = " output_" + videoName.Replace(" ", "_")
-                                        + "_Croped"
-                                        + videoType;
-                        string ffmpeg;
-
-                        // Start Condition : if you have win32 or win64
-                        if (Environment.Is64BitOperatingSystem)
-                            ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-                        else
-                            ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-
-                        // Start Command line ...
-                        process.StandardInput.WriteLine(ffmpeg + " -i " + "\"" + inputVideo + "\""
-                            + " -filter:v " + "\"" + "crop = " 
-                            + txtBoxW.Text + ":" + txtBoxH.Text + ":" + txtBoxX.Text + ":" + txtBoxY.Text + "\""
-                            + " -c:a copy" + output);
-
-                        // Flush & Close StandarInput
-                        process.StandardInput.Flush();
-                        process.StandardInput.Close();
-
-                        // Wait for Exit
-                        process.WaitForExit();
-
-                        // Close The Process
-                        process.Close();
-                        ChangeToDefault();
-                        MessageBox.Show("Your video have been croped successfully", "Success",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
-                    }
+                    // Declare variable input and output of FFmpeg tools
+                    string inputVideo = txtBoxVideoFilename.Text;
+                    string output = " output_" + videoName.Replace(" ", "_")
+                                    + "_Croped"
+                                    + videoType;
+                    RunProcess("-y -i " + "\"" + inputVideo + "\""
+                        + " -filter:v " + "\"" + "crop = "
+                        + txtBoxW.Text + ":" + txtBoxH.Text + ":" + txtBoxX.Text + ":" + txtBoxY.Text + "\""
+                        + " -c:a copy" + output);
+                    ChangeToDefault();
+                    MessageBox.Show("Your video have been croped successfully", "Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -143,6 +104,51 @@ namespace Conversion_Multimedia
             }
             else
                 MessageBox.Show("Please enter your video size ... \n\t(width & height)\nAnd enter starting position ...\n\t(x , y)");
+        }
+
+        // Run Process
+        private string RunProcess(string Argument)
+        {
+            string ffmpeg;
+            // Start Condition : if you have win32 or win64
+            if (Environment.Is64BitOperatingSystem)
+                ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
+            else
+                ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
+            //create a process info
+            ProcessStartInfo oInfo = new ProcessStartInfo(ffmpeg, Argument)
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            //Create the output and streamreader to get the output
+            string output = null; StreamReader srOutput = null;
+            //try the process
+            try
+            {
+                //run the process
+                Process p = Process.Start(oInfo);
+                p.BeginOutputReadLine();
+                p.BeginErrorReadLine();
+                p.WaitForExit();
+                //get the output
+                srOutput = p.StandardError;
+                //put it in a string
+                output = srOutput.ReadToEnd();
+                p.Close();
+            }
+            catch (Exception)
+            {
+                output = string.Empty;
+            }
+            finally
+            {
+                //if we succeded, Dispose the streamreader
+                srOutput?.Dispose();
+            }
+            return output;
         }
 
         // Activate Drag and Drop in Crop ...
@@ -172,7 +178,7 @@ namespace Conversion_Multimedia
                     txtBoxVideoFilename.Text = finfo.FullName;
                     videoName = Path.GetFileNameWithoutExtension(finfo.Name);
                     videoType = fileExtension;
-                    EnabledBtnAndTxt();
+                    EnabledBtnAndTxt(true);
                     break;
             }
         }
@@ -193,15 +199,8 @@ namespace Conversion_Multimedia
         {
             Cursor = DefaultCursor;
             txtBoxVideoFilename.Text = "Chose your video file ...";
-            // Enable Button Load
-            BtnLoadVideo.Enabled = true;
-            // Disable Button Start crop
-            btnStartCrop.Enabled = false;
-            // Disable TextBox
-            txtBoxW.Enabled = false;
-            txtBoxH.Enabled = false;
-            txtBoxX.Enabled = false;
-            txtBoxY.Enabled = false;
+            // Disable Button Start crop & TexBox
+            EnabledBtnAndTxt(false);
             // Clear TextBox
             txtBoxW.Text = "";
             txtBoxH.Text = "";

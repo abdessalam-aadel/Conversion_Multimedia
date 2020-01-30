@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Conversion_Multimedia
 {
@@ -131,6 +132,11 @@ namespace Conversion_Multimedia
         {
             if (e.KeyChar == (char)Keys.Escape)
                 WindowState = FormWindowState.Minimized;
+        }
+
+        private void linkGit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/abdessalam-aadel/Conversion_Multimedia");
         }
     }
 }

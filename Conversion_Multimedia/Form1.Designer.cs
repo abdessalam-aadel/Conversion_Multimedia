@@ -43,6 +43,7 @@
             this.others1 = new Conversion_Multimedia.Others();
             this.choseFile1 = new Conversion_Multimedia.ChoseFile();
             this.startConversion1 = new Conversion_Multimedia.StartConversion();
+            this.linkGit = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // BtnBackHome
@@ -207,11 +208,25 @@
             this.startConversion1.Size = new System.Drawing.Size(420, 124);
             this.startConversion1.TabIndex = 9;
             // 
+            // linkGit
+            // 
+            this.linkGit.AutoSize = true;
+            this.linkGit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkGit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkGit.Location = new System.Drawing.Point(203, 171);
+            this.linkGit.Name = "linkGit";
+            this.linkGit.Size = new System.Drawing.Size(38, 13);
+            this.linkGit.TabIndex = 0;
+            this.linkGit.TabStop = true;
+            this.linkGit.Text = "Github";
+            this.linkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkGit_LinkClicked);
+            // 
             // ConversionMultimediaForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 188);
+            this.Controls.Add(this.linkGit);
             this.Controls.Add(this.labelFooter2);
             this.Controls.Add(this.labelFooter1);
             this.Controls.Add(this.BtnBack);
@@ -254,6 +269,7 @@
         private System.Windows.Forms.Button BtnBack;
         private System.Windows.Forms.Label labelFooter1;
         private System.Windows.Forms.Label labelFooter2;
+        private System.Windows.Forms.LinkLabel linkGit;
     }
 }
 

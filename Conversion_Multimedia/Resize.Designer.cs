@@ -41,6 +41,8 @@
             this.panelLoading = new System.Windows.Forms.Panel();
             this.labelWait2 = new System.Windows.Forms.Label();
             this.pictureLoading = new System.Windows.Forms.PictureBox();
+            this.labelV = new System.Windows.Forms.Label();
+            this.labelVSize = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDrag4)).BeginInit();
             this.panelLoading.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureLoading)).BeginInit();
@@ -69,6 +71,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.DarkGreen;
             this.label4.Location = new System.Drawing.Point(38, 104);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(44, 13);
@@ -78,6 +81,8 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.SystemColors.Control;
+            this.label3.ForeColor = System.Drawing.Color.Maroon;
             this.label3.Location = new System.Drawing.Point(38, 77);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 13);
@@ -153,9 +158,9 @@
             // 
             this.panelLoading.Controls.Add(this.labelWait2);
             this.panelLoading.Controls.Add(this.pictureLoading);
-            this.panelLoading.Location = new System.Drawing.Point(1, 29);
+            this.panelLoading.Location = new System.Drawing.Point(0, 29);
             this.panelLoading.Name = "panelLoading";
-            this.panelLoading.Size = new System.Drawing.Size(420, 95);
+            this.panelLoading.Size = new System.Drawing.Size(420, 92);
             this.panelLoading.TabIndex = 0;
             this.panelLoading.Visible = false;
             // 
@@ -180,21 +185,42 @@
             this.pictureLoading.TabIndex = 21;
             this.pictureLoading.TabStop = false;
             // 
+            // labelV
+            // 
+            this.labelV.AutoSize = true;
+            this.labelV.Location = new System.Drawing.Point(206, 83);
+            this.labelV.Name = "labelV";
+            this.labelV.Size = new System.Drawing.Size(96, 13);
+            this.labelV.TabIndex = 0;
+            this.labelV.Text = "Origine video size :";
+            // 
+            // labelVSize
+            // 
+            this.labelVSize.AutoSize = true;
+            this.labelVSize.ForeColor = System.Drawing.Color.DimGray;
+            this.labelVSize.Location = new System.Drawing.Point(206, 101);
+            this.labelVSize.Name = "labelVSize";
+            this.labelVSize.Size = new System.Drawing.Size(30, 13);
+            this.labelVSize.TabIndex = 0;
+            this.labelVSize.Text = "...x...";
+            // 
             // Resize
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panelLoading);
+            this.Controls.Add(this.txtBoxH);
             this.Controls.Add(this.txtBoxVideoFilename);
             this.Controls.Add(this.BtnLoadVideo);
             this.Controls.Add(this.BtnStartResize);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtBoxH);
-            this.Controls.Add(this.txtBoxW);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
+            this.Controls.Add(this.labelVSize);
+            this.Controls.Add(this.labelV);
+            this.Controls.Add(this.txtBoxW);
             this.Controls.Add(this.pictureDrag4);
+            this.Controls.Add(this.panelLoading);
             this.Name = "Resize";
             this.Size = new System.Drawing.Size(420, 124);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Resize_DragDrop);
@@ -224,5 +250,7 @@
         private System.Windows.Forms.Panel panelLoading;
         private System.Windows.Forms.Label labelWait2;
         private System.Windows.Forms.PictureBox pictureLoading;
+        private System.Windows.Forms.Label labelV;
+        private System.Windows.Forms.Label labelVSize;
     }
 }

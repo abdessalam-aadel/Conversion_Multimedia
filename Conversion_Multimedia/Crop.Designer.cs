@@ -224,7 +224,6 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panelLoading);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtBoxVideoFilename);
@@ -238,6 +237,7 @@
             this.Controls.Add(this.BtnLoadVideo);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.pictureDrag2);
+            this.Controls.Add(this.panelLoading);
             this.Name = "Crop";
             this.Size = new System.Drawing.Size(420, 124);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Crop_DragDrop);
