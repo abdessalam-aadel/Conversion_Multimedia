@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using System.Diagnostics;
+using RunProcess_Kilya;
 
 namespace Conversion_Multimedia
 {
@@ -24,6 +24,8 @@ namespace Conversion_Multimedia
             RestoreDirectory = true,
             Title = "Chose your file"
         };
+
+        public RunProcess run = new RunProcess();
 
         // handle Button Load
         private void BtnLoadVideo_Click(object sender, EventArgs e)
@@ -87,10 +89,11 @@ namespace Conversion_Multimedia
                     string output = " output_" + videoName.Replace(" ", "_")
                                     + "_Croped"
                                     + videoType;
-                    RunProcess("-y -i " + "\"" + inputVideo + "\""
+
+                    run.RunFFmpeg("-y -i " + "\"" + inputVideo + "\""
                         + " -filter:v " + "\"" + "crop = "
                         + txtBoxW.Text + ":" + txtBoxH.Text + ":" + txtBoxX.Text + ":" + txtBoxY.Text + "\""
-                        + " -c:a copy" + output);
+                        + " -c:a copy" + output,true);
                     ChangeToDefault();
                     MessageBox.Show("Your video have been croped successfully", "Success",
                             MessageBoxButtons.OK,
@@ -105,52 +108,7 @@ namespace Conversion_Multimedia
             else
                 MessageBox.Show("Please enter your video size ... \n\t(width & height)\nAnd enter starting position ...\n\t(x , y)");
         }
-
-        // Run Process
-        private string RunProcess(string Argument)
-        {
-            string ffmpeg;
-            // Start Condition : if you have win32 or win64
-            if (Environment.Is64BitOperatingSystem)
-                ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-            else
-                ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-            //create a process info
-            ProcessStartInfo oInfo = new ProcessStartInfo(ffmpeg, Argument)
-            {
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            //Create the output and streamreader to get the output
-            string output = null; StreamReader srOutput = null;
-            //try the process
-            try
-            {
-                //run the process
-                Process p = Process.Start(oInfo);
-                p.BeginOutputReadLine();
-                p.BeginErrorReadLine();
-                p.WaitForExit();
-                //get the output
-                srOutput = p.StandardError;
-                //put it in a string
-                output = srOutput.ReadToEnd();
-                p.Close();
-            }
-            catch (Exception)
-            {
-                output = string.Empty;
-            }
-            finally
-            {
-                //if we succeded, Dispose the streamreader
-                srOutput?.Dispose();
-            }
-            return output;
-        }
-
+        
         // Activate Drag and Drop in Crop ...
         private void Crop_DragEnter(object sender, DragEventArgs e)
         {

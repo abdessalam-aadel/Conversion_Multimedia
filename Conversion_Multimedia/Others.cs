@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Diagnostics;
 using System.IO;
 using System.Drawing;
+using RunProcess_Kilya;
 
 namespace Conversion_Multimedia
 {
@@ -23,6 +23,8 @@ namespace Conversion_Multimedia
             Title = "Chose your video file"
         };
 
+        public RunProcess run = new RunProcess();
+
         // Handle Event click of Button Get info : to Get information from a video file
         private void BtnGetInfo_Click(object sender, EventArgs e)
         {
@@ -31,7 +33,13 @@ namespace Conversion_Multimedia
                 ofd.Filter = "Videos Files (*.mp4, *.avi, *.flv, *.wav, *.mpg, *.mpeg, *.mkv) | *.mp4; *.avi; *.flv; *.wav; *.mpg; *.mpeg; *.mkv";
                 DialogResult result = ofd.ShowDialog();
                 if (result == DialogResult.OK)
-                    RunProcess(" -i " + "\"" + ofd.FileName + "\"");
+                {
+                    FrmInfo frmInfo = new FrmInfo();
+                    frmInfo.GetValue(run.RunCmd(" -i " + "\"" + ofd.FileName + "\""
+                        + " 2>&1 | findstr .* | findstr /i /v \"version lib built\"", true));
+                    frmInfo.ShowDialog();
+                    ChangeToDefault();
+                }
                 else
                     return;
             }
@@ -71,56 +79,13 @@ namespace Conversion_Multimedia
                 case ".3gp":
                 case ".3g2":
                 case ".mj2":
-                    RunProcess(" -i " + "\"" + finfo.FullName + "\"");
+                    FrmInfo frmInfo = new FrmInfo();
+                    frmInfo.GetValue(run.RunCmd(" -i " + "\"" + finfo.FullName + "\"" 
+                        + " 2>&1 | findstr .* | findstr /i /v \"version lib built\"", true));
+                    frmInfo.ShowDialog();
+                    ChangeToDefault();
                     break;
             }
-        }
-
-        // Run Process
-        private void RunProcess(string Argument)
-        {
-            string ffmpeg;
-            // Start Condition : if you have win32 or win64
-            if (Environment.Is64BitOperatingSystem)
-                ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-            else
-                ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-
-            //create a process info
-            ProcessStartInfo oInfo = new ProcessStartInfo(ffmpeg, Argument)
-            {
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            //Create the output and streamreader to get the output
-            string output = null; StreamReader srOutput = null;
-            //try the process
-            try
-            {
-                //run the process
-                Process p = Process.Start(oInfo);
-                p.WaitForExit();
-                //get the output
-                srOutput = p.StandardError;
-                //put it in a string
-                output = srOutput.ReadToEnd();
-                p.Close();
-            }
-            catch (Exception)
-            {
-                output = string.Empty;
-            }
-            finally
-            {
-                //if we succeded, Dispose the streamreader
-                srOutput?.Dispose();
-            }
-            FrmInfo frmInfo = new FrmInfo();
-            frmInfo.GetValue(output);
-            frmInfo.ShowDialog();
-            ChangeToDefault();
         }
         
         // Change to default

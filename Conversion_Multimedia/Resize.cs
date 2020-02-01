@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.IO;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Drawing;
+using RunProcess_Kilya;
 
 namespace Conversion_Multimedia
 {
@@ -26,6 +26,8 @@ namespace Conversion_Multimedia
             RestoreDirectory = true,
             Title = "Chose your file"
         };
+
+        public RunProcess run = new RunProcess();
 
         // Handle event click Button Load a video file ...
         private void BtnLoadVideo_Click(object sender, EventArgs e)
@@ -68,7 +70,7 @@ namespace Conversion_Multimedia
                     string output = " output_" + videoName.Replace(" ", "_")
                                     + "_" + txtBoxW.Text + "x" + txtBoxH.Text
                                     + videoType;
-                    RunProcess("-y -i " + "\"" + inputVideo + "\""
+                    run.RunFFmpeg("-y -i " + "\"" + inputVideo + "\""
                                 + " -vf scale=" + txtBoxW.Text + ":" + txtBoxH.Text
                                 + output, true);
                     ChangeToDefault();
@@ -161,62 +163,14 @@ namespace Conversion_Multimedia
             labelVSize.ForeColor = Color.DimGray;
             labelVSize.Text = "...x...";
         }
-
-        // Run Process
-        private string RunProcess(string Argument, bool _wait)
-        {
-            string ffmpeg;
-            // Start Condition : if you have win32 or win64
-            if (Environment.Is64BitOperatingSystem)
-                ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-            else
-                ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-            //create a process info
-            ProcessStartInfo oInfo = new ProcessStartInfo(ffmpeg, Argument)
-            {
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            //Create the output and streamreader to get the output
-            string output = null; StreamReader srOutput = null;
-            //try the process
-            try
-            {
-                //run the process
-                Process p = Process.Start(oInfo);
-                if (_wait)
-                {
-                    p.BeginOutputReadLine();
-                    p.BeginErrorReadLine();
-                    p.WaitForExit();
-                }
-                //get the output
-                srOutput = p.StandardError;
-                //put it in a string
-                output = srOutput.ReadToEnd();
-                p.Close();
-            }
-            catch (Exception)
-            {
-                output = string.Empty;
-            }
-            finally
-            {
-                //if we succeded, Dispose the streamreader
-                srOutput?.Dispose();
-            }
-            return output;
-        }
-
+        
         // Handel procedure Search width and height
         private void SearchWH(string path)
         {
            // use regular expression to search the width & height for video file
             string pattern = @"(\d{2,3})x(\d{2,3})"; // pattern of width & height
             // Run the process and return the information of video...
-            string output = RunProcess(" -i " + "\"" + path + "\"", false);
+            string output = run.RunFFmpeg("-i " + "\"" + path + "\"", false);
             
             // Find matches
             Match m = Regex.Match(output, pattern);

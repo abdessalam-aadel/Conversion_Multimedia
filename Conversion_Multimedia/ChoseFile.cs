@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.IO;
 using System.Collections.Generic;
+using RunProcess_Kilya;
 
 namespace Conversion_Multimedia
 {
@@ -33,6 +33,8 @@ namespace Conversion_Multimedia
             RestoreDirectory = true,
             Title = "Chose your file"
         };
+
+        public RunProcess run = new RunProcess();
 
         // Handle Button Load
         private void BtnLoad_Click(object sender, EventArgs e)
@@ -224,28 +226,33 @@ namespace Conversion_Multimedia
                                 + ImagesOutput
                                 + TypesOutput;
                 // FFmpeg : override output file if exists with -y
-                string resultCmd = RunProcess("-y -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output, false);
+                string resultCmd = run.RunCmd(" -y -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output 
+                                                + " 2>&1 | findstr .*", true);
                 Thread.Sleep(500);
-                RunProcess("-y -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output,true);
+                run.RunFFmpeg("-y -i " + "\"" + input + "\"" + CommandFFmpegMiddle + output, true);
                 ImagesOutput = "";
 
-                #region Color Location
-                string pattern = @"(?<=from\s').*(?=':)";
+                #region Replace Location and Colored
+                string pattern = @"\w:(\\.+)*>(?!&)";
                 Match match = Regex.Match(resultCmd, pattern);
                 if (match.Success)
                 {
-                    string txtToSearch = match.Value;
-
+                    string oldvalueS = match.Value;
+                    string newValue = "Abdessalam(•̀_•́)Kilya $ ";
+                    rtxtboxCmd.Text = resultCmd.Replace(oldvalueS, newValue);
+                    // Selection color
                     int start = 0;
-                    int end = rtxtboxCmd.Text.LastIndexOf(txtToSearch);
+                    int end = rtxtboxCmd.Text.LastIndexOf(newValue);
                     while (start < end)
                     {
-                        rtxtboxCmd.Find(txtToSearch, start, rtxtboxCmd.TextLength, RichTextBoxFinds.MatchCase);
+                        rtxtboxCmd.Find(newValue, start, rtxtboxCmd.TextLength, RichTextBoxFinds.MatchCase);
                         // Set the highlight color as DarkOrange
                         rtxtboxCmd.SelectionColor = Color.DarkOrange;
-                        start = rtxtboxCmd.Text.IndexOf(txtToSearch, start) + 1;
+                        start = rtxtboxCmd.Text.IndexOf(newValue, start) + 1;
                     }
                 }
+                else
+                    rtxtboxCmd.Text = resultCmd;
                 #endregion
                 ChangeToDefault();
                 MessageBox.Show("Your conversion is completed successfully", "Success",
@@ -260,58 +267,6 @@ namespace Conversion_Multimedia
                             MessageBoxIcon.Error);
                 ChangeToDefault();
             }
-        }
-
-        // Run Process
-        private string RunProcess(string Argument, bool _wait)
-        {
-            string ffmpeg;
-            // Start Condition : if you have win32 or win64
-            if (Environment.Is64BitOperatingSystem)
-                ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-            else
-                ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-            //create a process info
-            ProcessStartInfo oInfo = new ProcessStartInfo(ffmpeg, Argument)
-            {
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            //Create the output and streamreader to get the output
-            string _output = null; StreamReader srOutput = null;
-            //try the process
-            try
-            {
-                //run the process
-                Process p = Process.Start(oInfo);
-                if (_wait)
-                {
-                    p.BeginOutputReadLine();
-                    p.BeginErrorReadLine();
-                    p.WaitForExit();
-                }
-                else
-                {
-                    //get the output
-                    srOutput = p.StandardError;
-                    //put it in a string
-                    _output = srOutput.ReadToEnd();
-                    rtxtboxCmd.Text = _output;
-                }
-                p.Close();
-            }
-            catch (Exception)
-            {
-                _output = string.Empty;
-            }
-            finally
-            {
-                //if we succeded, Dispose the streamreader
-                srOutput?.Dispose();
-            }
-            return _output;
         }
 
         // Methode Change to default

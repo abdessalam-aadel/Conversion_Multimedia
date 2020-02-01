@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Forms;
 using System.IO;
+using RunProcess_Kilya;
 
 namespace Conversion_Multimedia
 {
@@ -24,6 +24,8 @@ namespace Conversion_Multimedia
             RestoreDirectory = true,
             Title = "Chose your file"
         };
+
+        public RunProcess run = new RunProcess();
 
         // Handle event click Button Load video ...
         private void BtnLoadVideo_Click(object sender, EventArgs e)
@@ -77,75 +79,27 @@ namespace Conversion_Multimedia
         {
             try
             {
-                // uses an instance of the Process class to start a process
-                using (Process process = new Process())
-                {
-                    // change the cursor and disable button start
-                    Cursor = Cursors.WaitCursor;
-                    panelLoading.Visible = true;
-                    // Declare variable input and output of FFmpeg tools
-                    string inputVideo = txtBoxVideoFilename.Text;
-                    string inputSubtitle = txtBoxSubFilename.Text;
+                // change the cursor and disable button start
+                Cursor = Cursors.WaitCursor;
+                panelLoading.Visible = true;
+                // Declare variable input and output of FFmpeg tools
+                string inputVideo = txtBoxVideoFilename.Text;
+                string inputSubtitle = txtBoxSubFilename.Text;
 
-                    string output = " output_" + videoName.Replace(" ", "_") + videoType;
-                    RunProcess("-y -i " + "\"" + inputVideo + "\""
-                        + " -vf subtitles=" + subName
-                        + output);
-                    ChangeToDefault();
-                    MessageBox.Show("Your subtitles has been added successfully", "Success",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
-                }
+                string output = " output_" + videoName.Replace(" ", "_") + videoType;
+                run.RunFFmpeg("-y -i " + "\"" + inputVideo + "\""
+                    + " -vf subtitles=" + subName
+                    + output, true);
+                ChangeToDefault();
+                MessageBox.Show("Your subtitles has been added successfully", "Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 ChangeToDefault();
             }
-        }
-        // Run Process
-        private string RunProcess(string Argument)
-        {
-            string ffmpeg;
-            // Start Condition : if you have win32 or win64
-            if (Environment.Is64BitOperatingSystem)
-                ffmpeg = @"tools\x64\bin\ffmpeg.exe"; // path of FFmpeg tools for win32
-            else
-                ffmpeg = @"tools\x32\bin\ffmpeg.exe"; // path of FFmpeg tools for win64
-            //create a process info
-            ProcessStartInfo oInfo = new ProcessStartInfo(ffmpeg, Argument)
-            {
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            //Create the output and streamreader to get the output
-            string output = null; StreamReader srOutput = null;
-            //try the process
-            try
-            {
-                //run the process
-                Process p = Process.Start(oInfo);
-                p.BeginOutputReadLine();
-                p.BeginErrorReadLine();
-                p.WaitForExit();
-                //get the output
-                srOutput = p.StandardError;
-                //put it in a string
-                output = srOutput.ReadToEnd();
-                p.Close();
-            }
-            catch (Exception)
-            {
-                output = string.Empty;
-            }
-            finally
-            {
-                //if we succeded, Dispose the streamreader
-                srOutput?.Dispose();
-            }
-            return output;
         }
 
         // Activate Drag and Drop in AddSubtitles User control ...
