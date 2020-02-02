@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Conversion_Multimedia
 {
@@ -32,6 +33,8 @@ namespace Conversion_Multimedia
 
                 // Methode Bring to front
                 BringToFrontAndBack();
+                // Change Cursor
+                ChangeCursor(10);
             }
             catch (Exception)
             {
@@ -100,6 +103,7 @@ namespace Conversion_Multimedia
         {
             OthersOptions = others1.SetOptionsIsChecked;
             ifChanged = false;
+            ChangeCursor(0);
             switch (OthersOptions)
             {
                 case "Crop":
@@ -137,6 +141,14 @@ namespace Conversion_Multimedia
         private void linkGit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/abdessalam-aadel/Conversion_Multimedia");
+        }
+
+        // Center the mouse over a control like choseFile1 (userControl) 
+        public void ChangeCursor(int i)
+        {
+            Point p = new Point((choseFile1.Left + choseFile1.Right) / 2, (choseFile1.Top + choseFile1.Bottom) / 2 - i);
+            Point pcenter = choseFile1.Parent.PointToScreen(p);
+            Cursor.Position = pcenter;
         }
     }
 }
