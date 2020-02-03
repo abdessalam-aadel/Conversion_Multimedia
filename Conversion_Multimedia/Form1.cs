@@ -144,11 +144,10 @@ namespace Conversion_Multimedia
         }
 
         // Center the mouse over a control like choseFile1 (userControl) 
-        public void ChangeCursor(int i)
+        public void ChangeCursor(int y)
         {
-            Point p = new Point((choseFile1.Left + choseFile1.Right) / 2, (choseFile1.Top + choseFile1.Bottom) / 2 - i);
-            Point pcenter = choseFile1.Parent.PointToScreen(p);
-            Cursor.Position = pcenter;
+            Point p = new Point(choseFile1.Width / 2, (choseFile1.Height / 2) - y);
+            Cursor.Position = choseFile1.PointToScreen(p);
         }
     }
 }
